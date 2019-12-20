@@ -1,0 +1,122 @@
+.login-container, .register-container {
+  background: #efe6e2;
+  width: 100%;
+  display: table;
+  height: 100vh;
+  color: #fff;
+  & > div {
+    display: table-cell;
+    vertical-align: middle;
+  }
+
+  .logo {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    img {
+      width: 7.5rem;
+      height: 7.5rem;
+    }
+  }
+  
+  form {
+    background: $snapbackSecondary;
+    width: 500px;
+    margin: auto;
+    padding: 3rem;
+    border-radius: 1.5rem;
+    // box-shadow: 0 0 15px 0px #016d7c;
+    position: relative;    
+  }
+  
+  .invalid-feedback {
+    color: #841246;
+    font-size: 15px;
+  }
+
+  h3 {
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 2px;
+    margin-bottom: 1rem;
+  }
+
+  h5 {
+    text-align: center;
+    margin-bottom: 1rem;
+    color: $snapbackPrimary;
+  }
+  
+
+  input.form-control {
+    display: inline-block;
+    margin-bottom: 1.3rem;
+    color: #333;
+    padding: 1.4rem 1rem;
+    border-radius: 3px;
+    border: none;
+  }
+  
+  span {
+    padding-left: 1rem;
+  }
+  
+  button {
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 1.5rem 1.5rem;
+    border-radius: 3px;
+    line-height: 0;
+    background: #d4317c;
+    border: none;
+    color: white;
+    transition: 0.3s;
+    margin-bottom: 1rem;
+    &:hover {
+      background: #bd2269;
+    }
+  }
+  
+  p {
+    margin-bottom: 0;
+  }
+  
+  p.forgot-pass {
+    text-align: right;
+  }
+  
+  p.register {
+    text-align:  center;
+    font-size: 1rem;
+    margin-top: 1rem;
+    text-transform: uppercase;
+  }
+  
+  p.register a:hover {
+    text-decoration: none;
+    color: #666;
+  }
+  
+  a {
+    color: $snapbackPrimary;
+    padding-left: .5rem;
+  }
+  
+  label {
+    margin-bottom: 5px;
+    /* text-transform: uppercase; */
+    letter-spacing: 1px;
+    /* font-weight: bold; */
+  }
+
+  p.error-msg {
+    padding: 5px 10px 5px 0;
+    margin-top: 0;
+    font-size: 15px;
+    color: #841246;
+    // background: #ff6348;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+  }
+}

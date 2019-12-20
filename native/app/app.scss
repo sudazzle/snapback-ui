@@ -1,0 +1,57 @@
+@import '~@nativescript/theme/core';
+@import '~@nativescript/theme/forest';
+
+.login-register-form {
+  margin-left: 30;
+  margin-right: 30;
+  flex-grow: 2;
+  vertical-align: middle;
+  width: 90%;
+}
+
+.snapback-primary-bg {
+  background-color: #284154;
+}
+
+.snapback-secondary-bg {
+  background-color: #f06eaa;
+}
+
+.snapback-primary-text {
+  color: #3D586D;
+}
+
+.snpaback-secondary-text {
+  color: #f06eaa;
+}
+
+.login-register-question {
+  margin-top: 10;
+}
+
+.h1.brand {
+  text-align: center;
+  text-transform: uppercase;
+  margin-bottom: 30;
+}
+
+/* Sessions and Signups */
+.sessions {
+  border-radius: 3;
+  background: #f2f2f2;
+  /* border-width: 1; */
+  border-color: #f06eaa;
+}
+
+.signup-btn {
+  width: 150;
+  text-transform: uppercase;
+  height: 50px;
+}
+
+.badge {
+  border-radius: 50%;
+  padding: 5;
+  width: 100;
+  margin: 10;
+}

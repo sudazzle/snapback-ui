@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "415924075714",
+    "firebase_url": "https://snapbacktest.firebaseio.com",
+    "project_id": "snapbacktest",
+    "storage_bucket": "snapbacktest.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:415924075714:android:88d1092147af2585accf5b",
+        "android_client_info": {
+          "package_name": "com.application.mobile.snapback"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "415924075714-pkgq1odh4694ri1rc0n0h5mtpdd3mgfe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAfpDH4ysbkGEniFv_TfXPtLKhKHDZBP9g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "415924075714-pkgq1odh4694ri1rc0n0h5mtpdd3mgfe.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
