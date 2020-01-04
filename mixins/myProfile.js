@@ -29,7 +29,8 @@ export default {
         const { name, email } = res
         this.name = name
         this.email = email
-        store.setIsLoading("currentUser", false)
+        store.setCurrentUser(res)
+        // store.setIsLoading("currentUser", false)
         if (args) {
           args.object.refreshing = false
         }
@@ -51,6 +52,7 @@ export default {
       const payload = { name, email }
       updateUser({ payload })
         .then(() => {
+          store.setCurrentUser({ name, email })
           const message = "Profile updated."
           this.generalErrUserForm = false
           this.successCallback && this.successCallback(message)

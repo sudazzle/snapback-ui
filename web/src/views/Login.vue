@@ -35,7 +35,7 @@
         <p v-if="err" class="mt-2 error-msg">{{err}}</p>
         <p class="mt-3">
           <button type="submit">Login</button>
-          <span class="forgot-pass">Forgot password?<router-link to="/reset-password">Reset</router-link></span>
+          <router-link class="forgot-pass" to="/reset-password">Reset password</router-link>
         </p>
       </form>
       <p class="register"><router-link to="/register">Register new user</router-link></p>

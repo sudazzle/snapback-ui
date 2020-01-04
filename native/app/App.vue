@@ -94,16 +94,18 @@
         }
 
         if (newIndex === 2) {
+          store.resetSessions()
           store.setIsLoading("sessions")
-          getSessions().then(sessions => {
-            store.setSessions(sessions)
+          getSessions({ limit: 15, page: 1 }).then(sessions => {
+            store.setSessions(sessions, 1)
           })
         }
 
         if (newIndex === 3) {
+          store.resetUsers()
           store.setIsLoading("users")
-          getUsers().then((users) => {
-            store.setUsers(users)
+          getUsers({ limit: 15, page: 1 }).then((users) => {
+            store.setUsers(users, 1)
           })
         }
       },

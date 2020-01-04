@@ -7,6 +7,8 @@
         pullToRefresh="true"
         @pullToRefreshInitiated="onPullToRefreshInitiated"
         @itemSwipeProgressStarted="onSwipeStarted"
+        loadOnDemandMode="Manual"
+        @loadMoreDataRequested="onLoadMoreItemsRequested"
         @itemTap="gotoUserUpdatePage">
       <v-template>
         <StackLayout
@@ -47,13 +49,6 @@ import { getUsers } from "../../../data/users"
 export default {
   components: { Layout },
 
-  data() {
-    return {
-      users: store.state.users,
-      deleteItem: -1,
-    }
-  },
-
   mixins: [usersList],
 
   methods: {
@@ -68,9 +63,21 @@ export default {
       }
     },
 
+    onLoadMoreItemsRequested({ object }) {
+      const { limit, users } = this
+      const pageNo = users.currentPage + 1
+      getUsers({ limit, page: pageNo }).then((users) => {
+        store.setUsers(users, pageNo)  
+        object.notifyLoadOnDemandFinished()
+      })
+    },
+
     onPullToRefreshInitiated({ object }) {
-      getUsers().then((users) => {
-        store.setUsers(users)
+      const { limit } = this
+      // this.currentPage = 1
+      getUsers({ limit, page: 1 }).then((users) => {
+        store.resetUsers()
+        store.setUsers(users, 1)
         object.notifyPullToRefreshFinished()
       })
     },

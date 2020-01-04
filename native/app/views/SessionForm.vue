@@ -60,6 +60,7 @@
               </FlexboxLayout>
             </TextFieldWithLabelAndError>
             <Button
+              :isEnabled="!processing"
               height="auto"
               padding="20"
               backgroundColor="#284154"

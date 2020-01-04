@@ -1,6 +1,6 @@
 import store from "../data/store"
 import { validatePassword, validateUserForm } from "../utils/common"
-import { logIn } from "../data/users"
+import { logIn, resetPassword } from "../data/users"
 
 export default {
   name: "login",
@@ -21,6 +21,16 @@ export default {
   },
 
   methods: {
+    resetPassword() {
+      const payload = {
+        email: this.email
+      }
+
+      resetPassword({ payload }).then(() => {
+        console.log("got here")
+      })
+    },
+
     submit() {
       const { email, password } = this
       const { error: userFormErr } = validateUserForm({ email, hasName: false })

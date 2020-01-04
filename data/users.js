@@ -12,6 +12,15 @@ const createNewUser = async function ({ payload }) {
   }
 }
 
+const getUsersCount = async function () {
+  const { baseUrl, headers } = store.state.backEnd
+  const response = await get(`${baseUrl}/api/users/count`, { headers })
+
+  if (response.status === 200) {
+    return response.data.count
+  }
+}
+
 const logIn = async function ({ payload }) {
   const { baseUrl, headers } = store.state.backEnd
   const response = await post(
@@ -75,9 +84,9 @@ const getUserById = async function ({ id }) {
   }
 }
 
-const getUsers = async function () {
+const getUsers = async function ({ page = 1, limit = -1 }) {
   const { baseUrl, headers } = store.state.backEnd
-  const response = await get(`${baseUrl}/api/users`, {
+  const response = await get(`${baseUrl}/api/users?page=${page}&limit=${limit}`, {
     headers,
   })
 
@@ -97,6 +106,20 @@ const deleteUserById = async function ({ id }) {
   }
 }
 
+const resetPassword = async function({ payload }) {
+  console.log("payload", payload)
+  const { baseUrl, headers } = store.state.backEnd
+  const response = await post(`${baseUrl}/api/resetpassword`,
+  payload,
+  {
+    headers,
+  })
+
+  if (response.status === 200) {
+    return true
+  }
+}
+
 export {
   createNewUser,
   logIn,
@@ -106,4 +129,6 @@ export {
   getUserById,
   getUsers,
   deleteUserById,
+  getUsersCount,
+  resetPassword,
 }

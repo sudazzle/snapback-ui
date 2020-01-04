@@ -32,6 +32,10 @@
             text="LOGIN"
             @tap="submit" />
           <FlexboxLayout class="login-register-question" justifyContent="center">
+            <Label color="#f06eaa" class="-muted" text="Forgot Password?" />
+            <Label class="-primary m-l-10 text-primary" text="Reset" @tap="goToReset" />
+          </FlexboxLayout>
+          <FlexboxLayout class="login-register-question" justifyContent="center">
             <Label color="#f06eaa" class="-muted" text="Don't have account?" />
             <Label class="-primary m-l-10 text-primary" text="Register" @tap="goToRegister" />
           </FlexboxLayout>
@@ -45,6 +49,7 @@
   import App from "../App.vue"
   import Layout from "../components/Layout.vue"
   import Register from "./Register.vue"
+  import ResetPassword from "./ResetPassword.vue"
   import Logo from "../components/Logo.vue"
   import UserForm from "../components/UserForm.vue"
   import ErrorMessage from "../components/ErrorMessage.vue"
@@ -71,6 +76,10 @@
 
       goToRegister() {
         !this.currentUser.isLoading && this.$navigateTo(Register)
+      },
+
+      goToReset() {
+        !this.currentUser.isLoading && this.$navigateTo(ResetPassword)
       },
 
       setValue(key, value) {

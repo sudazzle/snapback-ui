@@ -7,6 +7,8 @@
         pullToRefresh="true"
         @pullToRefreshInitiated="onPullToRefreshInitiated"
         @itemSwipeProgressStarted="onSwipeStarted"
+        loadOnDemandMode="Manual"
+        @loadMoreDataRequested="onLoadMoreItemsRequested"
         @itemTap="editSessionNative">
       <v-template>
         <StackLayout
@@ -81,6 +83,15 @@ export default {
       this.$navigateTo(CreateSession, { props: { isCreate: true }})
     },
 
+    onLoadMoreItemsRequested({ object }) {
+      const { limit, sessions } = this
+      const pageNo = sessions.currentPage + 1
+      getSessions({ limit, page: pageNo }).then((sessions) => {
+        store.setSessions(sessions, pageNo)  
+        object.notifyLoadOnDemandFinished()
+      })
+    },
+
     onSwipeStarted ({ data, mainView, swipeView, index }) {
       if (!this.sessions.isLoading) {
         const item = mainView.bindingContext
@@ -101,8 +112,11 @@ export default {
     },
 
     onPullToRefreshInitiated({ object }) {
-      getSessions().then((sessions) => {
-        store.setSessions(sessions)
+      const { limit } = this
+      // this.currentPage = 1
+      getSessions({ limit, page: 1 }).then((sessions) => {
+        store.resetSessions()
+        store.setSessions(sessions, 1)  
         object.notifyPullToRefreshFinished()
       })
     },

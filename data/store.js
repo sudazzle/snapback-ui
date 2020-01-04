@@ -31,9 +31,14 @@ const store = {
     },
     currentUser: {
       isLoading: false,
-      // data: {},
+      data: {
+        email: "",
+        role: "",
+        ID: null,
+      },
     },
     sessions: {
+      currentPage: 1,
       isLoading: false,
       data: [],
     },
@@ -46,6 +51,7 @@ const store = {
       data: [],
     },
     users: {
+      currentPage: 1,
       isLoading: false,
       data: [],
     },
@@ -72,10 +78,25 @@ const store = {
     this.state[type].isLoading = val
   },
 
-  setSessions(sessions) {
+  // setSessions(sessions) {
+  //   const thisSessions = this.state.sessions.data
+  //   clearArray(thisSessions)
+  //   pushToArrayFromArray(sessions, thisSessions)
+  //   this.setIsLoading("sessions", false)
+  // },
+
+  resetSessions() {
+    this.state.sessions.data.length = 0
+  },
+
+  setSessions(sessions, currentPage) {
     const thisSessions = this.state.sessions.data
-    clearArray(thisSessions)
     pushToArrayFromArray(sessions, thisSessions)
+
+    if (currentPage) {
+      this.state.sessions.currentPage = currentPage
+    }
+
     this.setIsLoading("sessions", false)
   },
 
@@ -114,15 +135,28 @@ const store = {
   //   this.setIsLoading("sessions", false)
   // },
 
-  // setCurrentUser({ role, ID }) {
-  //   presistUserRole({ role, ID })
-  //   this.setIsLoading("currentUser", false)
-  // },
+  setCurrentUser({ name, email, role, ID }) {
+    const currentUser = this.state.currentUser.data
+    name && (currentUser.name = name)
+    ID && (currentUser.ID = ID)
+    email && (currentUser.email = email)
+    role && (currentUser.role = role)
+    this.setIsLoading("currentUser", false)
+  },
 
-  setUsers(users) {
+  resetUsers() {
+    this.state.users.data.length = 0
+  },
+
+  setUsers(users, currentPage) {
     const thisUsers = this.state.users.data
-    clearArray(thisUsers)
+    // clearArray(thisUsers)
     pushToArrayFromArray(users, thisUsers)
+
+    if (currentPage) {
+      this.state.users.currentPage = currentPage
+    }
+
     this.setIsLoading("users", false)
   },
 

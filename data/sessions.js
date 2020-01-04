@@ -11,6 +11,15 @@ const getNextSessions = async function () {
   }
 }
 
+const getSessionsCount = async function() {
+  const { baseUrl, headers } = store.state.backEnd
+  const response = await get(`${baseUrl}/api/sessions/count`, { headers })
+
+  if (response.status === 200) {
+    return response.data.count
+  }
+}
+
 const getSessionSignups = async function () {
   const { baseUrl, headers } = store.state.backEnd
   const response = await get(`${baseUrl}/api/get-my-signups`, { headers })
@@ -39,9 +48,9 @@ const getSessionById = async function ({ id }) {
   }
 }
 
-const getSessions = async function () {
+const getSessions = async function ({ page = 1, limit = -1 }) {
   const { baseUrl, headers } = store.state.backEnd
-  const response = await get(`${baseUrl}/api/sessions`, { headers })
+  const response = await get(`${baseUrl}/api/sessions?page=${page}&limit=${limit}`, { headers })
 
   if (response.status === 200) {
     let temp = response.data.sessions
@@ -122,4 +131,5 @@ export {
   signUp,
   startSession,
   getSignupsById,
+  getSessionsCount,
 }

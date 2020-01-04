@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-navbar toggleable="lg" type="dark" variant="info">
+    <b-navbar toggleable="lg" type="dark" variant="primary">
       <b-container>
         <b-navbar-brand href="#" @click="browseLink($event, '/')">Snapback</b-navbar-brand>
 
@@ -8,15 +8,15 @@
 
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav>
-            <!-- <b-nav-item v-if="$route.params.user.role === 'admin'" @click="browseLink($event, '/dashboard')">Dashboard</b-nav-item> -->
+            <!-- <b-nav-item v-if="currentUser.data.role === 'admin'" @click="browseLink($event, '/dashboard')">Dashboard</b-nav-item> -->
             <b-nav-item @click="browseLink($event ,'/next-sessions')" >Next sessions</b-nav-item>
             <b-nav-item @click="browseLink($event ,'/my-signups')" >My signups</b-nav-item>
             <b-nav-item 
-              v-if="$route.params.user.role === 'admin'"
+              v-if="currentUser.data.role === 'admin'"
               @click="browseLink($event ,'/users')"
             >Users</b-nav-item>
             <b-nav-item
-              v-if="$route.params.user.role !== 'user' && $route.params.user.role !== ''"
+              v-if="currentUser.data.role !== 'user' && currentUser.data.role !== ''"
               @click="browseLink($event, '/sessions')"
             >Sessions</b-nav-item>
           </b-navbar-nav>
@@ -26,7 +26,7 @@
             <b-nav-item-dropdown right>
               <!-- Using 'button-content' slot -->
               <template v-slot:button-content>
-                <strong>{{$route.params.user.name}}</strong>
+                <strong>{{currentUser.data.name}}</strong>
               </template>
               <b-dropdown-item @click="browseLink($event, '/account-settings')">Profile</b-dropdown-item>
               <b-dropdown-item @click="logOut">Sign out</b-dropdown-item>
@@ -41,10 +41,18 @@
   </div>
 </template>
 <script>
+import store from "../../../data/store"
 import { signOut } from "../utils"
 
 export default {
   name: "layout",
+
+  data() {
+    return {
+      currentUser: store.state.currentUser
+    }
+  },
+
   methods: {
     logOut() {
       signOut()

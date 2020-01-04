@@ -12,7 +12,7 @@
             variant="danger"
             @click.once="signUpHandler(session.ID)"
           >Sign up</b-button>
-          <b-badge variant="info" v-if="isSessionOwner(session.user_id)">You are the trainer</b-badge>
+          <b-badge variant="light" style="font-size: 1.2rem; font-weight: normal;" v-if="isSessionOwner(session.user_id)">You are the trainer</b-badge>
           <b-badge v-if="hasSignedUpForThisSession(session.ID)">Already signed up</b-badge>
         </b-jumbotron>
       </div>
@@ -24,10 +24,11 @@
   import nextSessionsMixins from "../../../mixins/nextSessions"
   import Loading from "../components/Loading.vue"
   import { getCSRFToken, makeToast } from "../utils"
+  import store from "../../../data/store"
   export default {
     data() {
       return {
-        userID: this.$route.params.user.ID
+        userID: store.state.currentUser.data.ID
       }
     },
 

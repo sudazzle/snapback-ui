@@ -5,22 +5,29 @@ export default {
 
   data() {
     return {
+      pages: [],
       users: store.state.users,
       deleteItem: -1,
+      limit: 15,
     }
   },
 
   methods: {
-    _getUsers() {
-      store.setIsLoading("users")
-      getUsers().then((users) => {
+    _getUsers({ page = 1, isLoading = true, callback }) {
+      const { limit } = this
+
+      isLoading && store.setIsLoading("users")
+      
+      getUsers({ limit, page }).then((users) => {
+        this.pages[page] = users
         store.setUsers(users)
+        callback && callback()
       })
     },
 
     deleteUser() {
       deleteUserById({ id: this.deleteItem }).then(() => {
-        this._getUsers()
+        // this._getUsers()
         this.successCallback && this.successCallback()
       }).catch((err) => {
         console.log("err", err)

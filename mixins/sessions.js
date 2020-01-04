@@ -6,8 +6,10 @@ export default {
 
   data() {
     return {
+      pages: [],
       sessions: store.state.sessions,
       deleteItem: -1,
+      limit: 15,
     }
   },
 
@@ -17,12 +19,20 @@ export default {
     }
   },
 
-  methods: {
-    getSessions() {
-      store.setIsLoading("sessions")
+  created() {
+    this.getCSRFToken()
+  },
 
-      getSessions().then((sessions) => {
-        store.setSessions(sessions)        
+  methods: {
+    getSessions({ page = 1, isLoading = true, callback }) {
+      const { limit } = this
+
+      isLoading && store.setIsLoading("sessions")
+
+      getSessions({ limit, page }).then((sessions) => {
+        this.pages[page] = sessions
+        store.setSessions(sessions)
+        callback && callback()
       })
     },
 
@@ -32,9 +42,9 @@ export default {
       store.setIsLoading("sessions")
 
       deleteSession({ id: this.deleteItem }).then(() => {
-        this.getSessions()
+        // this.getSessions()
         this.deleteSuccessCallback && this.deleteSuccessCallback()
-      }).catch(() => {
+      }).catch((err) => {
         this.deleteErrorCallback && this.deleteErrorCallback()
       })
     },

@@ -20,6 +20,7 @@
               <StackLayout class="p-x-15 m-t-15" ref="radios">
                 <Label text="Role" />
                 <CheckBox
+                  :isEnabled="!processing"
                   borderColor="#ccc"
                   class="m-t-10"
                   text="User"
@@ -28,12 +29,14 @@
                   @checkedChange="handleCheckedChange($event, 'user')"
                 />
                 <CheckBox
+                  :isEnabled="!processing"
                   class="m-t-10"
                   text="Trainer"
                   :checked="role === 'trainer'"
                   boxType="circle"
                   @checkedChange="handleCheckedChange($event, 'trainer')" />
                 <CheckBox
+                  :isEnabled="!processing"
                   class="m-t-10"
                   text="Admin"
                   :checked="role === 'admin'"
@@ -54,6 +57,7 @@
               />
               <ErrorMessage :errorMessage="generalErrUserForm" />
               <Button
+                :isEnabled="!processing"
                 height="auto"
                 backgroundColor="#284154"
                 class="-primary p-y-20"
@@ -77,6 +81,7 @@
               />
               <ErrorMessage :errorMessage="generalErrPasswordForm" />
               <Button
+                :isEnabled="!processing"
                 height="auto"
                 backgroundColor="#284154"
                 v-if="isUpdate"

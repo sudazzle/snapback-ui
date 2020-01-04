@@ -10,12 +10,13 @@ import SessionList from "./views/SessionList.vue"
 import Layout from "./components/Layout.vue"
 import MyProfile from "./views/MyProfile.vue"
 import CreateNEditUser from "./views/CreateNEditUser.vue"
-// import ResetPassword from "./views/ResetPassword.vue"
+import ResetPassword from "./views/ResetPassword.vue"
 // import ChangePassword from "./views/ChangePassword.vue"
 // import PageNotFound from "./views/PageNotFound.vue"
 import SessionStart from "./views/SessionStart.vue"
 import { isLoggedIn } from "./utils"
 import { whoAmI } from "../../data/users"
+import store from "../../data/store"
 
 Vue.use(Router)
 
@@ -54,7 +55,7 @@ export const options = {
   routes: [
     { path: "/register", name: "register", component: Register },
     { path: "/login", name: "login", component: Login },
-    // { path: "/reset-password", component: ResetPassword },
+    { path: "/reset-password", component: ResetPassword },
     // { path: "/change-password", component: ChangePassword },
     // { path: "/page-not-found", component: PageNotFound },
     {
@@ -65,6 +66,7 @@ export const options = {
         if (isAuthenticated) {
           whoAmI()
             .then((user) => {
+              store.setCurrentUser(user)
               const { role } = user
               if (
                 (role !== "admin" && isAdminRoute(to.path)) ||
@@ -75,7 +77,6 @@ export const options = {
                 if (to.path === "/login" && isAuthenticated) {
                   next("/")
                 }
-                to.params.user = user
                 next()
               }
             })

@@ -115,7 +115,7 @@ export default {
       if (this.isCreate) {
         createNewSession({ payload }).then(() => {
           store.setIsLoading("sessions")
-          getSessions().then((sessions) => {
+          getSessions({}).then((sessions) => {
             store.setSessions(sessions)
           })
           this.redirectCallback && this.redirectCallback()
@@ -129,7 +129,7 @@ export default {
         const id = this.session_id || this.$route.params.id
         updateSession({ payload, id }).then(() => {
           store.setIsLoading("sessions")
-          getSessions().then((sessions) => {
+          getSessions({}).then((sessions) => {
             store.setSessions(sessions)
           })
           const message = "Training session updated."
