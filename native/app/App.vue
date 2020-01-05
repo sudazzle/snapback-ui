@@ -44,11 +44,11 @@
   import Signups from "./views/Signups.vue"
   import SessionsList from "./views/SessionsList.vue"
   import UsersList from "./views/UsersList.vue"
-  import { whoAmI, getUsers } from "../../data/users"
+  import { whoAmI, getUsers, updateUser } from "../../data/users"
   import Loading from "./components/Loading.vue"
   import store from "../../data/store"
   import { getSessions, getNextSessions, getSessionSignups } from "../../data/sessions"
-  import { getUserInfo, getCSRFToken } from "./utils"
+  import { getUserInfo, getCSRFToken, makeAlert } from "./utils"
 
   const firebase = require("nativescript-plugin-firebase")
 
@@ -148,11 +148,21 @@
         showNotificationsWhenInForeground: true,
 
         onPushTokenReceivedCallback: (token) => {
-          console.log("[Firebase] onPushTokenReceivedCallback:", { token })
+          const payload = {
+            device_token: token
+          }
+
+          try {
+            updateUser({ payload })
+            // console.log("[Firebase] onPushTokenReceivedCallback:", { token })
+          } catch(err) {
+            console.log(err)
+          }
         },
 
         onMessageReceivedCallback: (message) => {
-          console.log("[Firebase] onMessageReceivedCallback:", { message })
+          (message && message !== "") && makeAlert(message)
+          // console.log("[Firebase] onMessageReceivedCallback:", { message })
         },
       }).then(
         () => {

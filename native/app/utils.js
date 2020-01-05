@@ -45,7 +45,8 @@ function isLoggedIn() {
 const getBaseUrl = function() {
   let baseUrl = ""
   if (TNS_ENV === "development") {
-    baseUrl = "http://10.0.2.2:8000"
+    // baseUrl = "http://10.0.2.2:8000"
+    baseUrl = "http://192.168.11.192:8000"
 
   }
 
