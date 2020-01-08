@@ -161,8 +161,8 @@
         },
 
         onMessageReceivedCallback: (message) => {
-          (message && message !== "") && makeAlert(message)
-          // console.log("[Firebase] onMessageReceivedCallback:", { message })
+          (message && message.foreground && message.data && message.data.msg !== "") && makeAlert(message.data.msg)
+          console.log("[Firebase] onMessageReceivedCallback:", { message })
         },
       }).then(
         () => {
