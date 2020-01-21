@@ -3,7 +3,7 @@ import store from "./store"
 
 const getNextSessions = async function () {
   const { baseUrl, headers } = store.state.backEnd
-  const response = await get(`${baseUrl}/api/sessions/next`, { headers })
+  const response = await get(`${baseUrl}/api/sessions/next`, { headers, timeout: 2000 })
 
   if (response.status === 200) {
     const temp = response.data.sessions
@@ -13,7 +13,7 @@ const getNextSessions = async function () {
 
 const getSessionsCount = async function() {
   const { baseUrl, headers } = store.state.backEnd
-  const response = await get(`${baseUrl}/api/sessions/count`, { headers })
+  const response = await get(`${baseUrl}/api/sessions/count`, { headers, timeout: 2000 })
 
   if (response.status === 200) {
     return response.data.count
@@ -22,7 +22,7 @@ const getSessionsCount = async function() {
 
 const getSessionSignups = async function () {
   const { baseUrl, headers } = store.state.backEnd
-  const response = await get(`${baseUrl}/api/get-my-signups`, { headers })
+  const response = await get(`${baseUrl}/api/get-my-signups`, { headers, timeout: 2000 })
 
   if (response.status === 200) {
     const temp = response.data.signups
@@ -32,7 +32,7 @@ const getSessionSignups = async function () {
 
 const cancelSessionSignup = async function ({ id }) {
   const { baseUrl, headers } = store.state.backEnd
-  const response = await del(`${baseUrl}/api/signups/${id}/cancel`, { headers })
+  const response = await del(`${baseUrl}/api/signups/${id}/cancel`, { headers, timeout: 2000 })
 
   if (response.status === 200) {
     return true
@@ -41,7 +41,7 @@ const cancelSessionSignup = async function ({ id }) {
 
 const getSessionById = async function ({ id }) {
   const { baseUrl, headers } = store.state.backEnd
-  const response = await get(`${baseUrl}/api/sessions/${id}`, { headers })
+  const response = await get(`${baseUrl}/api/sessions/${id}`, { headers, timeout: 2000 })
 
   if (response.status === 200) {
     return response.data.session
@@ -50,7 +50,7 @@ const getSessionById = async function ({ id }) {
 
 const getSessions = async function ({ page = 1, limit = -1 }) {
   const { baseUrl, headers } = store.state.backEnd
-  const response = await get(`${baseUrl}/api/sessions?page=${page}&limit=${limit}`, { headers })
+  const response = await get(`${baseUrl}/api/sessions?page=${page}&limit=${limit}`, { headers, timeout: 2000 })
 
   if (response.status === 200) {
     let temp = response.data.sessions
@@ -60,7 +60,7 @@ const getSessions = async function ({ page = 1, limit = -1 }) {
 
 const createNewSession = async function( { payload }) {
   const { baseUrl, headers } = store.state.backEnd
-  const response = await post(`${baseUrl}/api/sessions/new`, payload, { headers })
+  const response = await post(`${baseUrl}/api/sessions/new`, payload, { headers, timeout: 2000 })
 
   if (response.status === 200) {
     return true
@@ -69,7 +69,7 @@ const createNewSession = async function( { payload }) {
 
 const updateSession = async function({ id, payload }) {
   const { baseUrl, headers } = store.state.backEnd
-  const response = await patch(`${baseUrl}/api/sessions/${id}`, payload, { headers })
+  const response = await patch(`${baseUrl}/api/sessions/${id}`, payload, { headers, timeout: 2000 })
 
   if (response.status === 200) {
     return true
@@ -77,7 +77,7 @@ const updateSession = async function({ id, payload }) {
 }
 const deleteSession = async function({ id }) {
   const { baseUrl, headers } = store.state.backEnd
-  const response = await del(`${baseUrl}/api/sessions/${id}`, { headers })
+  const response = await del(`${baseUrl}/api/sessions/${id}`, { headers, timeout: 2000 })
 
   if (response.status === 200) {
     return true
@@ -89,7 +89,7 @@ const signUp = async function({ payload }) {
   const response = await post(
     `${baseUrl}/api/sessions/signup`,
     payload,
-    { headers },
+    { headers, timeout: 2000 },
   )
 
   if (response.status === 200) {

@@ -15,6 +15,15 @@ const getMonths = function() {
   ]
 }
 
+const formatUsers = function(users) {
+  return users.map((user) => {
+    return {
+      text: user.name,
+      value: user.ID
+    }
+  })
+}
+
 const getDay = function(day) {
   switch (day) {
     case 0:
@@ -215,6 +224,7 @@ function validateUserForm({ email, hasName = true, name }) {
 }
 
 export {
+  formatUsers,
   getMonths,
   getCurrentMonth,
   getCurrentDay,

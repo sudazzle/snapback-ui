@@ -1,13 +1,13 @@
 <template>
   <Layout :isLoading="sessions.isLoading || signups.isLoading">
-    <NoDataMessage v-if="!hasSessions && !sessions.isLoading && !signups.isLoading" message="No trainning sessions yet." />   
+    <NoDataMessage v-if="!hasSessions && !sessions.isLoading && !signups.isLoading" :message="message" />   
     <PullToRefresh else @refresh="getSessionsInfo">
       <ScrollView :isScrollEnabled="!sessions.isLoading || !signups.isLoading" width="100%" height="100%">
         <StackLayout class="p-y-10">
           <StackLayout
             class="m-x-15 m-y-5 p-30 sessions"
             v-for="session in sessions.data" 
-            :key="'session' + session.ID"
+            :key="'session' + session.id"
           >
             <Label
               class="h2 snapback-primary-text text-center font-weight-bold"
@@ -34,7 +34,7 @@
               backgroundColor="#DC2B7B"
               class="bg-primary -rounded-sm"
               v-if="!isSessionOwner(session.user_id) && !hasSignedUpForThisSession(session.ID)"
-              @tap="signUpHandler(session.ID)"
+              @tap="signUpHandler(session.id)"
             >Sign up</Button>
             <Label
               class="bg-primary text-center badge"
@@ -50,7 +50,7 @@
               color="#aaa"
               borderWidth="1"
               class="text-center"
-              v-if="hasSignedUpForThisSession(session.ID, session.title)"
+              v-if="hasSignedUpForThisSession(session.id, session.title)"
             >Already signed up</Label>
           </StackLayout>
         </StackLayout>
@@ -71,12 +71,23 @@ export default {
     const user = JSON.parse(getUserInfo())
     return {      
       userID: user.ID,
+      backEnd: store.state.backEnd
     }
   },
 
   components: {
     Layout,
     NoDataMessage,
+  },
+
+  computed: {
+    message() {
+      if (this.backEnd.noConnection) {
+        return "No internet Connection"
+      } else {
+        return "No trainning sessions yet."
+      }
+    }
   },
 
   mixins: [nextSessions],

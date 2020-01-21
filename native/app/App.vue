@@ -39,6 +39,7 @@
   </Page>
 </template>
 <script>
+  import Vue from "vue"
   import NextSessions from "./views/NextSessions.vue"
   import MyProfile from "./views/MyProfile.vue"
   import Signups from "./views/Signups.vue"
@@ -131,6 +132,12 @@
 
         getNextSessions().then((sessions) => {
           store.setNextSessions(sessions)
+        }).catch(error => {
+          if (error.response.status === null) {
+            store.setNoConnection()
+          }
+          store.setIsLoading("nextSessions", false)
+          store.setIsLoading("mySignups", false)
         })
 
         getSessionSignups().then((sessions) => {
@@ -162,7 +169,6 @@
 
         onMessageReceivedCallback: (message) => {
           (message && message.foreground && message.data && message.data.msg !== "") && makeAlert(message.data.msg)
-          console.log("[Firebase] onMessageReceivedCallback:", { message })
         },
       }).then(
         () => {

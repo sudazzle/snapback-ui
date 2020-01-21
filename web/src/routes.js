@@ -11,8 +11,8 @@ import Layout from "./components/Layout.vue"
 import MyProfile from "./views/MyProfile.vue"
 import CreateNEditUser from "./views/CreateNEditUser.vue"
 import ResetPassword from "./views/ResetPassword.vue"
-// import ChangePassword from "./views/ChangePassword.vue"
-// import PageNotFound from "./views/PageNotFound.vue"
+import ErrorInfo from "./views/ErrorInfo.vue"
+import PageNotFound from "./views/PageNotFound.vue"
 import SessionStart from "./views/SessionStart.vue"
 import { isLoggedIn } from "./utils"
 import { whoAmI } from "../../data/users"
@@ -56,8 +56,7 @@ export const options = {
     { path: "/register", name: "register", component: Register },
     { path: "/login", name: "login", component: Login },
     { path: "/reset-password", component: ResetPassword },
-    // { path: "/change-password", component: ChangePassword },
-    // { path: "/page-not-found", component: PageNotFound },
+    { path: "/page-not-found", component: PageNotFound },
     {
       path: "/",
       component: Layout,
@@ -79,6 +78,8 @@ export const options = {
                 }
                 next()
               }
+            }).catch(() => {
+              next("/error-info")
             })
         } else {
           next("/login")
@@ -157,10 +158,14 @@ export const options = {
         },
       ],
     },
-    // {
-    //   path: "*",
-    //   component: PageNotFound,
-    // },
+     {
+      path: "/error-info",
+      component: ErrorInfo,
+    },
+    {
+      path: "*",
+      component: PageNotFound,
+    },
   ],
 }
 export default new Router(options)

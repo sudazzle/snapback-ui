@@ -8,6 +8,7 @@
           :header="signup.title"
           :lead="stringToDateTime(signup.date_n_time) + ' ' + getTime(signup.date_n_time)"
         >
+          <p style="font-size: 1.1rem; font-weight: bold; color: red;" v-if="signup.status === 'waiting'">On waiting list</p>
           <b-button size="lg" variant="primary" @click.once="cancelSignup(signup.signup_id)">Cancel</b-button>
         </b-jumbotron>
       </div>

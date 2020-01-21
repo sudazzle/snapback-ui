@@ -1,4 +1,5 @@
 import store from "../data/store"
+import { getUsers } from "../data/users"
 import { getSessionById, createNewSession, updateSession, getSessions } from "../data/sessions"
 import { getDaysOfGivenYearAndMonth, getDay } from "../utils/common"
 
@@ -15,6 +16,8 @@ export default {
       maxParticipantsErr: false,
       titleErr: false,
       processing: false,
+      userId: store.state.currentUser.data.ID,
+      users: store.state.users
     }
   },
 
@@ -22,6 +25,11 @@ export default {
 
   created() {
     this.getCSRFToken()
+    store.resetUsers()
+    getUsers({ limit: -1, page: 1 }).then((users) => {
+      store.setUsers(users)
+    })
+
     if (!this.isCreate) {
       this.processing = true
       this._getSessionById()
@@ -39,12 +47,13 @@ export default {
         const id = this.session_id || this.$route.params.id
         
         getSessionById({ id }).then((res) => {
-          const { title, description, max_participants, date_n_time } = res
+          const { title, description, max_participants, date_n_time, user_id } = res
           const { year, month, day, hour, minute } = this.parseResponseDate(date_n_time)
 
           this.title = title
           this.description = description
           this.max_participants = max_participants
+          this.userId = user_id
           this.days = getDaysOfGivenYearAndMonth(year, month)
 
           const tempDate = new Date(`${year}-${month}-${day}`)
@@ -109,6 +118,7 @@ export default {
         description: this.description,
         max_participants: Number(this.max_participants),
         date_n_time: this.compileRequestDate(),
+        user_id: this.userId
       }
 
       this.processing = true
@@ -127,6 +137,7 @@ export default {
         })
       } else {
         const id = this.session_id || this.$route.params.id
+        console.log("payload", payload)
         updateSession({ payload, id }).then(() => {
           store.setIsLoading("sessions")
           getSessions({}).then((sessions) => {

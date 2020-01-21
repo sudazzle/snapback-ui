@@ -3,17 +3,18 @@
     <h2>Next Snapback Sessions</h2>
     <Loading v-if="sessions.isLoading || signups.isLoading" />
     <div v-else>
-      <div v-for="session in sessions.data" :key="session.ID + 'session'">
+      <div v-for="session in sessions.data" :key="session.id + 'session'">
         <b-jumbotron :header="session.title" :lead="stringToDateTime(session.date_n_time)">
           <p v-if="session.description !== ''">{{session.description}}</p>
+          <p style="font-size: 1.1rem; font-weight: bold; color: red;" v-if="session.signups >= session.max_participants && !hasSignedUpForThisSession(session.id)">Session already full. Signup for waiting list.</p>
           <b-button
-            v-if="!isSessionOwner(session.user_id) && !hasSignedUpForThisSession(session.ID)"
+            v-if="!isSessionOwner(session.user_id) && !hasSignedUpForThisSession(session.id)"
             size="lg"
             variant="danger"
-            @click.once="signUpHandler(session.ID)"
+            @click.once="signUpHandler(session.id)"
           >Sign up</b-button>
           <b-badge variant="light" style="font-size: 1.2rem; font-weight: normal;" v-if="isSessionOwner(session.user_id)">You are the trainer</b-badge>
-          <b-badge v-if="hasSignedUpForThisSession(session.ID)">Already signed up</b-badge>
+          <b-badge v-if="hasSignedUpForThisSession(session.id)">Already signed up</b-badge>
         </b-jumbotron>
       </div>
       <b-jumbotron v-if="!hasSessions" lead="There are no upcoming training sessions yet." />

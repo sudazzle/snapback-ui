@@ -23,6 +23,7 @@ const { hour, minute } = getCurrentHourAndMinute()
 const store = {
   state: {
     backEnd: {
+      noConnection: false,
       baseUrl: "",
       headers: {
         "Authorization": "",
@@ -198,6 +199,10 @@ const store = {
   //   index && signups.splice(index, 1)
   //   this.setIsLoading("mySignups", false)
   // },
+
+  setNoConnection() {
+    this.state.backEnd.noConnection = true
+  }
 }
 
 export default store

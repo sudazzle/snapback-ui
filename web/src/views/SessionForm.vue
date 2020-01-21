@@ -19,6 +19,8 @@
       <b-form-invalid-feedback v-if="maxParticipantsErr" id="maxParticipants-input-box">
         {{ maxParticipantsErr }}
       </b-form-invalid-feedback>
+      <label class="mt-3" for="">Trainer</label>
+      <b-form-select class="w-100 mb-1" @change="changeUser" v-model="userId" :options="formatUsers(users.data)"></b-form-select>
       <label class="mt-3" for="">Date and Time</label>
       <div class="date-time">
         <div>
@@ -40,7 +42,7 @@
 <script>
   import Loading from "../components/Loading.vue"
 
-  import { getYearsList, getMonths, getDaysOfGivenYearAndMonth, getHours, getMinutes, getDay } from "../../../utils/common"
+  import { getYearsList, getMonths, getDaysOfGivenYearAndMonth, getHours, getMinutes, getDay, formatUsers } from "../../../utils/common"
   import { getCSRFToken, makeToast } from "../utils"
   import store from "../../../data/store"
   import sessionFormMixin from "../../../mixins/sessionForm"
@@ -90,6 +92,11 @@
     methods: {
       makeToast,
       getCSRFToken,
+      formatUsers,
+
+      changeUser(user) {
+        this.userId = user
+      },
 
       redirectCallback() {
         this.$router.push({ name: 'sessionlist' })
