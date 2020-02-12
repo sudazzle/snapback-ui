@@ -36,7 +36,10 @@
       </b-container>
     </b-navbar>
     <b-container>
-      <router-view></router-view>
+      <div v-if="backend.errorForLayout" class="p-4">
+        <b-jumbotron :lead="backend.errorForLayout" />
+      </div>
+      <router-view v-if="!backend.errorForLayout"></router-view>
     </b-container>
   </div>
 </template>
@@ -49,7 +52,8 @@ export default {
 
   data() {
     return {
-      currentUser: store.state.currentUser
+      currentUser: store.state.currentUser,
+      backend: store.state.backEnd
     }
   },
 

@@ -19,10 +19,6 @@ export default {
     }
   },
 
-  created() {
-    this.getCSRFToken()
-  },
-
   methods: {
     getSessions({ page = 1, isLoading = true, callback }) {
       const { limit } = this

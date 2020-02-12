@@ -43,7 +43,7 @@
   import Loading from "../components/Loading.vue"
 
   import { getYearsList, getMonths, getDaysOfGivenYearAndMonth, getHours, getMinutes, getDay, formatUsers } from "../../../utils/common"
-  import { getCSRFToken, makeToast } from "../utils"
+  import { makeToast } from "../utils"
   import store from "../../../data/store"
   import sessionFormMixin from "../../../mixins/sessionForm"
 
@@ -91,7 +91,6 @@
 
     methods: {
       makeToast,
-      getCSRFToken,
       formatUsers,
 
       changeUser(user) {

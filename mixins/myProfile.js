@@ -18,7 +18,6 @@ export default {
   },
 
   created() {
-    this.getCSRFToken()
     store.setIsLoading("currentUser")
     this.getMyInfo()
   },

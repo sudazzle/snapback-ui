@@ -24,7 +24,6 @@ export default {
   props: ["isCreate", "session_id"],
 
   created() {
-    this.getCSRFToken()
     store.resetUsers()
     getUsers({ limit: -1, page: 1 }).then((users) => {
       store.setUsers(users)

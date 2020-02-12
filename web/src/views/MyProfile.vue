@@ -73,7 +73,7 @@
 <script>
   import myProfile from "../../../mixins/myProfile"
   import Loading from "../components/Loading.vue"
-  import { signOut, makeToast, getCSRFToken } from "../utils"
+  import { signOut, makeToast } from "../utils"
   export default {
     mixins: [myProfile],
 
@@ -98,7 +98,6 @@
 
     methods: {
       makeToast,
-      getCSRFToken,
       successCallback(message) {
         this.makeToast("success", message)
       }

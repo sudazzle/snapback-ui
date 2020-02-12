@@ -6,7 +6,13 @@
       <div v-for="session in sessions.data" :key="session.id + 'session'">
         <b-jumbotron :header="session.title" :lead="stringToDateTime(session.date_n_time)">
           <p v-if="session.description !== ''">{{session.description}}</p>
-          <p style="font-size: 1.1rem; font-weight: bold; color: red;" v-if="session.signups >= session.max_participants && !hasSignedUpForThisSession(session.id)">Session already full. Signup for waiting list.</p>
+          <p 
+            style="font-size: 1.1rem; font-weight: bold; color: red;"
+            v-if="session.signups >= session.max_participants && !hasSignedUpForThisSession(session.id)"
+          >
+            <span v-if="session.signups - session.max_participants === 0">Signup to be first in the waiting list.</span>
+            <span else>{{session.signups - session.max_participants}} people in the waiting list.</span>
+          </p>
           <b-button
             v-if="!isSessionOwner(session.user_id) && !hasSignedUpForThisSession(session.id)"
             size="lg"
@@ -24,12 +30,14 @@
 <script>
   import nextSessionsMixins from "../../../mixins/nextSessions"
   import Loading from "../components/Loading.vue"
-  import { getCSRFToken, makeToast } from "../utils"
+  import { makeToast } from "../utils"
   import store from "../../../data/store"
+
   export default {
     data() {
       return {
-        userID: store.state.currentUser.data.ID
+        userID: store.state.currentUser.data.ID,
+        backendError: store.state.backEnd.error
       }
     },
 
@@ -38,11 +46,11 @@
     },
 
     created() {
-      getCSRFToken()
       this.fetchSessionsAndSignups()
     },
 
     mixins: [nextSessionsMixins],
+
     methods: {
       makeToast,
       signupSuccessCallback() {

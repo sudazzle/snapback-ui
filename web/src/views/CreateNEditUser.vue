@@ -80,7 +80,7 @@
 <script>
   import Loading from "../components/Loading"
   import createNEditUser from "../../../mixins/createNEditUser"
-  import { makeToast, getCSRFToken } from "../utils"
+  import { makeToast } from "../utils"
   export default {
     data() {
       return {
@@ -108,10 +108,6 @@
       passwordError() {
         return (this.passwordFormError && this.passwordFormError.errorFor === "password") ? false : null
       }
-    },
-
-    created() {
-      getCSRFToken()
     },
 
     methods: {

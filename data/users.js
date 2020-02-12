@@ -1,130 +1,50 @@
-import { post, get, patch, delete as del } from "axios"
-import store from "./store"
+import { ajax } from "../utils/common"
 
 const createNewUser = async function ({ payload }) {
-  const { baseUrl, headers } = store.state.backEnd
-  const response = await post(`${baseUrl}/api/users/new`, payload, {
-    headers,
-    timeout: 2000,
-  })
-
-  if (response.status === 200) {
-    return true
-  }
+  return await ajax("post", `/users/new`, payload)
 }
 
 const getUsersCount = async function () {
-  const { baseUrl, headers } = store.state.backEnd
-  const response = await get(`${baseUrl}/api/users/count`, { headers, timeout: 2000, })
-
-  if (response.status === 200) {
-    return response.data.count
-  }
+  return await ajax("get", `/users/count`)
 }
 
 const logIn = async function ({ payload }) {
-  const { baseUrl, headers } = store.state.backEnd
-  const response = await post(
-    `${baseUrl}/api/users/login`,
-    payload,
-    {
-      // withCredentials: true cross domain cookies
-      headers,
-      timeout: 2000,
-    },
+  return await ajax(
+    "post",
+    `/users/login`,
+    payload
   )
-
-  if (response.status === 200) {
-    // const { token, ID, role } = response.data.user
-    // saveToken("auth", token)
-    // presistUserInfo({ ID, role, token })
-    return response.data.user
-  }
 }
 
 const whoAmI = async function () {
-  const { baseUrl, headers } = store.state.backEnd
-  const response = await get(`${baseUrl}/api/get-my-info`, {
-    headers,
-    timeout: 2000,
-  })
-
-  if (response.status === 200) {
-    return response.data.user
-  }
+  return await ajax("get", `/get-my-info`)
 }
 
 const updateUser = async function ({ payload, id }) {
-  const { baseUrl, headers } = store.state.backEnd
-  const url = id ? `/api/users/${id}` : "/api/update-my-info"
-
-  const response = await patch(baseUrl + url, payload, {
-    headers,
-    timeout: 2000,
-  })
-
-  if (response.status === 200) {
-    return true
-  }
+  const url = id ? `/users/${id}` : "/update-my-info"
+  return await ajax("patch", baseUrl + url, payload)
 }
 
 const changeUserPassword = async function ({ payload, id }) {
-  const { baseUrl, headers } = store.state.backEnd
-  const url = id ? `/api/users/${id}/changepassword` : "/api/users/changepassword"
-  const response = await patch(baseUrl + url, payload, { headers, timeout: 2000, })
-
-  if (response.status === 200) {
-    return true
-  }
+  const url = id ? `/users/${id}/changepassword` : "users/changepassword"
+  return await ajax("patch", baseUrl + url, payload)
 }
 
 const getUserById = async function ({ id }) {
-  const { baseUrl, headers } = store.state.backEnd
-  const url = `${baseUrl}/api/users/${id}`
-  const response = await get(url, { headers, timeout: 2000, })
-
-  if (response.status === 200) {
-    return response.data.user
-  }
+  const url = `/users/${id}`
+  return await ajax("get", url)
 }
 
 const getUsers = async function ({ page = 1, limit = -1 }) {
-  const { baseUrl, headers } = store.state.backEnd
-  const response = await get(`${baseUrl}/api/users?page=${page}&limit=${limit}`, {
-    headers,
-    timeout: 2000,
-  })
-
-  if (response.status === 200) {
-    return response.data.users ? response.data.users : []
-  }
+  return await ajax("get", `/users?page=${page}&limit=${limit}`)
 }
 
 const deleteUserById = async function ({ id }) {
-  const { baseUrl, headers } = store.state.backEnd
-  const response = await del(`${baseUrl}/api/users/${id}`, {
-    headers,
-    timeout: 2000,
-  })
-
-  if (response.status === 200) {
-    return true
-  }
+  return await ajax("delete", `/users/${id}`)
 }
 
 const resetPassword = async function({ payload }) {
-  console.log("payload", payload)
-  const { baseUrl, headers } = store.state.backEnd
-  const response = await post(`${baseUrl}/api/resetpassword`,
-  payload,
-  {
-    headers,
-    timeout: 2000,
-  })
-
-  if (response.status === 200) {
-    return true
-  }
+  return await ajax("post", `/resetpassword`, payload)
 }
 
 export {

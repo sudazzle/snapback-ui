@@ -6,16 +6,15 @@ import store from "../../data/store"
 import { getBaseUrl, isLoggedIn, getAuthToken } from "./utils"
 import "../styles/custom.scss"
 
-const loggedIn = isLoggedIn()
-
-Vue.use(BootstrapVue)
-Vue.config.productionTip = false
-
 store.setBaseUrl(getBaseUrl())
 
+const loggedIn = isLoggedIn()
 if (loggedIn) {
   store.setAuthHeader(getAuthToken())
 }
+
+Vue.use(BootstrapVue)
+Vue.config.productionTip = false
 
 new Vue({
   router,

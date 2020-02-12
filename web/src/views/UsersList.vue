@@ -8,7 +8,7 @@
       <Loading v-if="users.isLoading" />
       <div v-else>
         <b-table
-          v-if="users.data.length > 0"
+          v-if="hasUsers"
           :items="pages[currentPage]"
           :fields="fields"
           sticky-header
@@ -21,7 +21,7 @@
             </span>
           </template>
         </b-table>
-        <b-jumbotron v-else lead="There are no members." />
+        <b-jumbotron v-if="!hasUsers" lead="There are no members." />
         <b-pagination
           v-if="totalRows > limit"
           v-model="currentPage"
@@ -38,7 +38,7 @@
   import DeleteConfirmModal from "../components/DeleteConfirmModal.vue"
   import usersList from "../../../mixins/usersList"
   import { getUsersCount } from "../../../data/users"
-  import { makeToast, getCSRFToken } from "../utils"
+  import { makeToast } from "../utils"
   export default {
     data() {
       return {
@@ -64,8 +64,6 @@
     },
 
     created() {
-      getCSRFToken()
-
       getUsersCount().then((count) => {
         this.totalRows = count
       })

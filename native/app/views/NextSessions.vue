@@ -1,6 +1,8 @@
 <template>
   <Layout :isLoading="sessions.isLoading || signups.isLoading">
-    <NoDataMessage v-if="!hasSessions && !sessions.isLoading && !signups.isLoading" :message="message" />   
+    <PullToRefresh v-if="!hasSessions && !sessions.isLoading && !signups.isLoading" @refresh="getSessionsInfo">
+      <NoDataMessage :message="message" />
+    </PullToRefresh>   
     <PullToRefresh else @refresh="getSessionsInfo">
       <ScrollView :isScrollEnabled="!sessions.isLoading || !signups.isLoading" width="100%" height="100%">
         <StackLayout class="p-y-10">

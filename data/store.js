@@ -23,11 +23,11 @@ const { hour, minute } = getCurrentHourAndMinute()
 const store = {
   state: {
     backEnd: {
-      noConnection: false,
+      errorForLayout: false,
+      errorForPage: false,
       baseUrl: "",
       headers: {
         "Authorization": "",
-        "X-CSRF-TOKEN": "",
       }
     },
     currentUser: {
@@ -71,9 +71,9 @@ const store = {
     this.state.backEnd.headers["Authorization"] = `Bearer ${token}`
   },
 
-  setCSRFToken(token) {
-    this.state.backEnd.headers["X-CSRF-TOKEN"] = token
-  },
+  // setCSRFToken(token) {
+  //   this.state.backEnd.headers["X-CSRF-TOKEN"] = token
+  // },
 
   setIsLoading(type, val = true) {
     this.state[type].isLoading = val
@@ -200,8 +200,10 @@ const store = {
   //   this.setIsLoading("mySignups", false)
   // },
 
-  setNoConnection() {
-    this.state.backEnd.noConnection = true
+  setBackendError(error, entity = null, action = null) {
+    this.state.backEnd.error = error
+    this.state.backEnd.entity = entity
+    this.state.backEnd.action = action
   }
 }
 

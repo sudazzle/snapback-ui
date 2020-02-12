@@ -16,10 +16,6 @@ export default {
     }
   },
 
-  created() {
-    this.getCSRFToken()
-  },
-
   methods: {
     resetPassword() {
       const payload = {
@@ -56,6 +52,7 @@ export default {
       store.setIsLoading("currentUser")
       logIn({ payload })
         .then((user) => {
+          console.log("user", user)
           this.err = false
           store.setAuthHeader(user.token)
           this.loginSuccesCallback(user)

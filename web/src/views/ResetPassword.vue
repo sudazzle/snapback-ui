@@ -44,7 +44,6 @@
   import Logo from "../components/Logo.vue"
   import Loading from "../components/Loading.vue"
   import resetPassword from "../../../mixins/resetPassword"
-  import { getCSRFToken } from "../utils"
 
   export default {
     mixins: [resetPassword],
@@ -65,7 +64,6 @@
     },
 
     methods: {
-      getCSRFToken,
       successCallback() {
         this.$root.$emit("bv::show::modal", "password-reset-modal")
       },

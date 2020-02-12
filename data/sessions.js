@@ -1,122 +1,57 @@
-import { get, post, patch, delete as del } from "axios"
-import store from "./store"
+import { ajax } from "../utils/common"
+// import store from "./store"
 
 const getNextSessions = async function () {
-  const { baseUrl, headers } = store.state.backEnd
-  const response = await get(`${baseUrl}/api/sessions/next`, { headers, timeout: 2000 })
-
-  if (response.status === 200) {
-    const temp = response.data.sessions
-    return temp === null ? [] : temp
-  }
+  const response = await ajax("get", `/sessions/next`)
+  return (response && response === null) ? [] : response
 }
 
 const getSessionsCount = async function() {
-  const { baseUrl, headers } = store.state.backEnd
-  const response = await get(`${baseUrl}/api/sessions/count`, { headers, timeout: 2000 })
-
-  if (response.status === 200) {
-    return response.data.count
-  }
+  return await ajax("get", `/sessions/count`)
 }
 
 const getSessionSignups = async function () {
-  const { baseUrl, headers } = store.state.backEnd
-  const response = await get(`${baseUrl}/api/get-my-signups`, { headers, timeout: 2000 })
-
-  if (response.status === 200) {
-    const temp = response.data.signups
-    return temp === null ? [] : temp
-  }
+  const response = await ajax("get", `/get-my-signups`)
+  return (response && response === null) ? [] : response
 }
 
 const cancelSessionSignup = async function ({ id }) {
-  const { baseUrl, headers } = store.state.backEnd
-  const response = await del(`${baseUrl}/api/signups/${id}/cancel`, { headers, timeout: 2000 })
-
-  if (response.status === 200) {
-    return true
-  }
+  return await ajax("delete", `/signups/${id}/cancel`)
+  
 }
 
 const getSessionById = async function ({ id }) {
-  const { baseUrl, headers } = store.state.backEnd
-  const response = await get(`${baseUrl}/api/sessions/${id}`, { headers, timeout: 2000 })
-
-  if (response.status === 200) {
-    return response.data.session
-  }
+  return await ajax("get", `/sessions/${id}`)
 }
 
 const getSessions = async function ({ page = 1, limit = -1 }) {
-  const { baseUrl, headers } = store.state.backEnd
-  const response = await get(`${baseUrl}/api/sessions?page=${page}&limit=${limit}`, { headers, timeout: 2000 })
-
-  if (response.status === 200) {
-    let temp = response.data.sessions
-    return temp === null ? [] : temp
-  }
+  const response = await ajax("get", `/sessions?page=${page}&limit=${limit}`)
+  return (response && response === null) ? [] : response
 }
 
 const createNewSession = async function( { payload }) {
-  const { baseUrl, headers } = store.state.backEnd
-  const response = await post(`${baseUrl}/api/sessions/new`, payload, { headers, timeout: 2000 })
-
-  if (response.status === 200) {
-    return true
-  }
+  return await ajax("post", `sessions/new`, payload)
 }
 
 const updateSession = async function({ id, payload }) {
-  const { baseUrl, headers } = store.state.backEnd
-  const response = await patch(`${baseUrl}/api/sessions/${id}`, payload, { headers, timeout: 2000 })
-
-  if (response.status === 200) {
-    return true
-  }
+  return await ajax("patch", `/sessions/${id}`, payload)
 }
-const deleteSession = async function({ id }) {
-  const { baseUrl, headers } = store.state.backEnd
-  const response = await del(`${baseUrl}/api/sessions/${id}`, { headers, timeout: 2000 })
 
-  if (response.status === 200) {
-    return true
-  }
+const deleteSession = async function({ id }) {
+  return await ajax("delete", `/sessions/${id}`)
 }
 
 const signUp = async function({ payload }) {
-  const { baseUrl, headers } = store.state.backEnd
-  const response = await post(
-    `${baseUrl}/api/sessions/signup`,
-    payload,
-    { headers, timeout: 2000 },
-  )
-
-  if (response.status === 200) {
-    return true
-  }
+  return await ajax("post", `/sessions/signup`, payload)
 }
 
 const startSession = async function({ id, payload }) {
-  const { baseUrl, headers } = store.state.backEnd
-  const response = await patch(`${baseUrl}/api/sessions/${id}/start`, payload, {
-    headers,
-  })
-
-  if (response.status === 200) {
-    return true
-  }
+  return await ajax("patch", `/sessions/${id}/start`, payload)
 }
 
 const getSignupsById = async function({ id }) {
-  const { baseUrl, headers } = store.state.backEnd
-  const response = await get(`${baseUrl}/api/sessions/${id}/signups`, {
-    headers,
-  })
-
-  if (response.status === 200) {
-    return response.data.signups ? response.data.signups : []
-  }
+  const response = await ajax("get", `/sessions/${id}/signups`)
+  return response ? response : []
 }
 
 export {

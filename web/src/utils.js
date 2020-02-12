@@ -1,6 +1,3 @@
-import { get } from "axios"
-import store from "../../data/store"
-
 const csrfKey = "snapback_csrf_token"
 const authKey = "snapback_auth_token"
 
@@ -37,18 +34,6 @@ function getBaseUrl() {
   return ""
 }
 
-const getCSRFToken = async () => {
-  const baseUrl = getBaseUrl()
-  const response = await get(`${baseUrl}/api/info`)
-  if (response.status === 200) {
-    const csrfToken = response.headers["x-csrf-token"]
-    store.setCSRFToken(csrfToken)
-    // saveToken("csrf", csrfToken)
-  }
-
-  return new Error(response)
-}
-
 const makeToast = function (variant = null, content) {
   this.$bvToast.toast(content, {
     title: false,
@@ -62,7 +47,6 @@ export {
   saveToken,
   isLoggedIn,
   signOut,
-  getCSRFToken,
   getBaseUrl,
   makeToast,
 }

@@ -47,7 +47,7 @@
   import Logo from "../components/Logo.vue"
   import Loading from "../components/Loading.vue"
   import loginMixin from "../../../mixins/login"
-  import { getCSRFToken, saveToken } from "../utils"
+  import { saveToken } from "../utils"
 
   export default {
     mixins: [loginMixin],
@@ -55,10 +55,6 @@
     components: {
       Logo,
       Loading,
-    },
-
-    created() {
-      getCSRFToken()
     },
 
     computed: {
@@ -80,7 +76,6 @@
     },
 
     methods: {
-      getCSRFToken,
       loginSuccesCallback(user) {
         saveToken("auth", user.token)
         this.$router.push({ name: "nextSessions" })

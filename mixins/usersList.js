@@ -12,6 +12,12 @@ export default {
     }
   },
 
+  computed: {
+    hasUsers() {
+      return this.users.data.length > 0
+    }
+  },
+
   methods: {
     _getUsers({ page = 1, isLoading = true, callback }) {
       const { limit } = this

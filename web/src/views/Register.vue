@@ -76,8 +76,6 @@
   import Loading from "../components/Loading.vue"
   import registerMixins from "../../../mixins/register"
 
-  import { getCSRFToken } from "../utils"
-
   export default {
     name: "register",
     mixins: [registerMixins],
@@ -103,7 +101,6 @@
     },
 
     methods: {
-      getCSRFToken,
       registerSuccessCallback() {
         this.$router.push({ name: "login" })
       }

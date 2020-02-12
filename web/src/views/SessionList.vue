@@ -23,7 +23,7 @@
             </span>
           </template>
         </b-table>
-        <b-jumbotron v-else lead="There are no sessions." />
+        <b-jumbotron v-if="!hasSessions" lead="There are no sessions." />
         <b-pagination
           v-if="totalRows > limit"
           v-model="currentPage"
@@ -38,7 +38,7 @@
 <script>
   import Loading from "../components/Loading.vue"
   import DeleteConfirmModal from "../components/DeleteConfirmModal.vue"
-  import { makeToast, getCSRFToken } from "../utils"
+  import { makeToast } from "../utils"
   import { getSessionsCount } from "../../../data/sessions"
   import sessionsMixin from "../../../mixins/sessions"
   
@@ -77,7 +77,6 @@
 
     methods: {
       makeToast,
-      getCSRFToken,
 
       editSession(id) {
         this.$router.push(`/sessions/${id}`)

@@ -8,7 +8,7 @@
           :header="signup.title"
           :lead="stringToDateTime(signup.date_n_time) + ' ' + getTime(signup.date_n_time)"
         >
-          <p style="font-size: 1.1rem; font-weight: bold; color: red;" v-if="signup.status === 'waiting'">On waiting list</p>
+          <p style="font-size: 1.1rem; font-weight: bold; color: red;" v-if="signup.status === 'waiting'">You are number {{ signup.queue_no }} in the queue.</p>
           <b-button size="lg" variant="primary" @click.once="cancelSignup(signup.signup_id)">Cancel</b-button>
         </b-jumbotron>
       </div>
@@ -22,12 +22,11 @@
 <script>
   import Loading from "../components/Loading.vue"
   import signupsMixins from "../../../mixins/mySignups"
-  import { getCSRFToken, makeToast } from "../utils"
+  import { makeToast } from "../utils"
   
   export default {
     mixins: [signupsMixins],
     created() {
-      getCSRFToken()
       this.getSignups()
     },
 

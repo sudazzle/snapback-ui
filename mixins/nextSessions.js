@@ -40,7 +40,6 @@ export default {
     },
 
     fetchSessionsAndSignups(pullRefresh) {
-
       if (!pullRefresh) {
         store.setIsLoading("nextSessions")
         store.setIsLoading("mySignups")
@@ -52,10 +51,11 @@ export default {
 
       getSessionSignups().then((sessions) => {
         store.setMySessionSignups(sessions)
+      }).finally(() => {
         if (pullRefresh) {
           pullRefresh.refreshing = false
         }
-      })
+      }) 
     },
 
     signUpHandler(session_id) {
@@ -67,9 +67,6 @@ export default {
         .then(() => {
           this.fetchSessionsAndSignups()
           this.signupSuccessCallback && this.signupSuccessCallback()
-        }).catch(() => {
-          store.setIsLoading("nextSessions", false)
-          store.setIsLoading("mySignups", false)
         })
     },
   },
