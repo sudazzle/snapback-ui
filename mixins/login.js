@@ -52,13 +52,11 @@ export default {
       store.setIsLoading("currentUser")
       logIn({ payload })
         .then((user) => {
-          console.log("user", user)
           this.err = false
           store.setAuthHeader(user.token)
           this.loginSuccesCallback(user)
         })
         .catch((err) => {
-          console.log("err", err)
           this.err = err.response.status ? err.response.data.message : "Internet Connection Error."
         })
         .finally(() => {

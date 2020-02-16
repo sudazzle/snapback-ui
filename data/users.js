@@ -1,4 +1,4 @@
-import { ajax } from "../utils/common"
+import ajax from "./ajax"
 
 const createNewUser = async function ({ payload }) {
   return await ajax("post", `/users/new`, payload)
@@ -21,13 +21,14 @@ const whoAmI = async function () {
 }
 
 const updateUser = async function ({ payload, id }) {
-  const url = id ? `/users/${id}` : "/update-my-info"
-  return await ajax("patch", baseUrl + url, payload)
+  console.log("url")
+  // const url = id ? `/users/${id}` : "/update-my-info"
+  // return await ajax("patch", url, payload)
 }
 
 const changeUserPassword = async function ({ payload, id }) {
   const url = id ? `/users/${id}/changepassword` : "users/changepassword"
-  return await ajax("patch", baseUrl + url, payload)
+  return await ajax("patch", url, payload)
 }
 
 const getUserById = async function ({ id }) {

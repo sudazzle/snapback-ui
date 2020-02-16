@@ -62,7 +62,6 @@
 <script>
 import { getSessions } from "../../../data/sessions"
 import store from "../../../data/store"
-import { getCSRFToken } from "../utils"
 import NoDataMessage from "../components/NoDataMessage.vue"
 import CreateSession from "./SessionForm.vue"
 import Layout from "../components/Layout.vue"
@@ -76,7 +75,6 @@ export default {
   mixins: [sessions],
 
   methods: {
-    getCSRFToken,
     stringToDateTime,
 
     goToAddSession() {

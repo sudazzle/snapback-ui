@@ -14,10 +14,6 @@ export default {
     }
   },
 
-  created() {
-    this.getCSRFToken()
-  },
-
   methods: {
     submit() {
       const { email } = this
@@ -36,8 +32,6 @@ export default {
       store.setIsLoading("currentUser")
       resetPassword({ payload }).then(() => {
         this.successCallback && this.successCallback()
-      }).catch((err) => {
-        this.err = err.response.status ? err.response.data.message : "Internet Connection Error."
       })
       .finally(() => {
         store.setIsLoading("currentUser", false)

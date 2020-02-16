@@ -20,7 +20,7 @@
             @click.once="signUpHandler(session.id)"
           >Sign up</b-button>
           <b-badge variant="light" style="font-size: 1.2rem; font-weight: normal;" v-if="isSessionOwner(session.user_id)">You are the trainer</b-badge>
-          <b-badge v-if="hasSignedUpForThisSession(session.id)">Already signed up</b-badge>
+          <b-badge style="font-size: 1.2rem; font-weight: normal;" v-if="hasSignedUpForThisSession(session.id)">Already signed up</b-badge>
         </b-jumbotron>
       </div>
       <b-jumbotron v-if="!hasSessions" lead="There are no upcoming training sessions yet." />

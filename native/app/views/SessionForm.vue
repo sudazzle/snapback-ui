@@ -90,7 +90,7 @@ import App from "../App.vue"
 import sessionForm from "../../../mixins/sessionForm"
 import store from "../../../data/store"
 
-import { getCSRFToken, makeAlert } from "../utils"
+import { makeAlert } from "../utils"
 
 export default {
   data() {
@@ -118,8 +118,6 @@ export default {
   },
 
   methods: {
-    getCSRFToken,
-
     selectDateNative() {
       const { year, month, day } = this.selectedDate
       this.$showModal(DatePickerModal, { props: { year, month, day }})

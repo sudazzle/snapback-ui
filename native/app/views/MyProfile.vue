@@ -73,7 +73,7 @@ import myProfile from "../../../mixins/myProfile"
 import { validatePassword, validateUserForm } from "../../../utils/common"
 import { whoAmI, updateUser, changeUserPassword } from "../../../data/users"
 import store from "../../../data/store"
-import { makeAlert, signOut, getCSRFToken } from "../utils"
+import { makeAlert, signOut } from "../utils"
 
 export default {
   components: {
@@ -87,7 +87,6 @@ export default {
   mixins: [myProfile],
 
   methods: {
-    getCSRFToken,
     logout() {
       signOut()
       this.$navigateTo(Login, { clearHistory: true })

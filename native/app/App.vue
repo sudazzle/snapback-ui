@@ -49,7 +49,7 @@
   import Loading from "./components/Loading.vue"
   import store from "../../data/store"
   import { getSessions, getNextSessions, getSessionSignups } from "../../data/sessions"
-  import { getUserInfo, getCSRFToken, makeAlert } from "./utils"
+  import { getUserInfo, makeAlert } from "./utils"
 
   const firebase = require("nativescript-plugin-firebase")
 
@@ -78,8 +78,6 @@
 
     methods: {
       indexChange: function(args) {
-        getCSRFToken()
-        
         let newIndex = args.value
         this.selectedIndex = newIndex
 

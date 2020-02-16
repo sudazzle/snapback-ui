@@ -1,42 +1,3 @@
-import axios from "axios"
-import store from "../data/store"
-
-const ajax = async (method = "get", url, body = {}) => {
-  const { baseUrl, headers } = store.state.backEnd
-  
-  store.setBackendError(false)
-  try {
-    const instance = axios.create({
-      baseURL: baseUrl + '/api',
-      timeout: 1500,
-      headers,
-    })
-    
-    const response = await instance[method](url, body)
-    const keys = Object.keys(response.data)
-    
-    return response.data[keys[0]]
-  } catch (error) {
-    for (let [key, value] of Object.entries(store.state)) {
-      if (typeof value.isLoading !== "undefined") {
-        store.setIsLoading(key, false)
-      }
-    }
-    
-    let message
-
-    if (error.response.status === 500) {
-      message = "Something happends on our side. Sorry for inconvenience."
-    } else if (error.response.status !== null) {
-      message = error.response.data.message
-    } else {
-      message = "No internet connection."
-    }
-    
-    store.setBackendError(message)
-  }
-}
-
 const getMonths = function() {
   return [
     { text: "January", value: "01" },
@@ -263,7 +224,6 @@ function validateUserForm({ email, hasName = true, name }) {
 }
 
 export {
-  ajax,
   formatUsers,
   getMonths,
   getCurrentMonth,

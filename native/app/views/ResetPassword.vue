@@ -41,7 +41,7 @@
   import store from "../../../data/store"
   import resetPassword from "../../../mixins/resetPassword"
   
-  import { makeAlert, getCSRFToken } from "../utils"
+  import { makeAlert } from "../utils"
 
   export default {
     mixins: [resetPassword],
@@ -54,8 +54,6 @@
     },
     
     methods: {
-      getCSRFToken,
-
       goToLogin() {
         this.$navigateTo(Login)
       },

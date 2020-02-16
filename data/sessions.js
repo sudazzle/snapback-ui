@@ -1,9 +1,8 @@
-import { ajax } from "../utils/common"
-// import store from "./store"
+import ajax from "./ajax"
 
 const getNextSessions = async function () {
   const response = await ajax("get", `/sessions/next`)
-  return (response && response === null) ? [] : response
+  return response ? response : []
 }
 
 const getSessionsCount = async function() {
@@ -12,7 +11,7 @@ const getSessionsCount = async function() {
 
 const getSessionSignups = async function () {
   const response = await ajax("get", `/get-my-signups`)
-  return (response && response === null) ? [] : response
+  return response ? response : []
 }
 
 const cancelSessionSignup = async function ({ id }) {
@@ -26,7 +25,7 @@ const getSessionById = async function ({ id }) {
 
 const getSessions = async function ({ page = 1, limit = -1 }) {
   const response = await ajax("get", `/sessions?page=${page}&limit=${limit}`)
-  return (response && response === null) ? [] : response
+  return response ? response : []
 }
 
 const createNewSession = async function( { payload }) {

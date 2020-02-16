@@ -1,6 +1,9 @@
 <template>
   <AbsoluteLayout @loaded="onLoadedHandler" ref="rootLayout" width="100%" height="100%">
     <StackLayout left="0" top="0" width="100%" height="100%">
+      <!--<PullToRefresh v-if="!hasSessions && !sessions.isLoading && !signups.isLoading" @refresh="getSessionsInfo">
+        <NoDataMessage :message="message" />
+      </PullToRefresh> -->
       <slot />
     </StackLayout>
     <AbsoluteLayout v-if="addButton" ref="fabItemPosition" marginTop="87%" marginLeft="77%">

@@ -58,7 +58,7 @@
   import store from "../../../data/store"
   import loginMixin from "../../../mixins/login"
   
-  import { makeAlert, getCSRFToken, saveToken, presistUserInfo } from "../utils"
+  import { makeAlert, saveToken, presistUserInfo } from "../utils"
 
   export default {
     mixins: [loginMixin],
@@ -72,8 +72,6 @@
     },
     
     methods: {
-      getCSRFToken,
-
       goToRegister() {
         !this.currentUser.isLoading && this.$navigateTo(Register)
       },

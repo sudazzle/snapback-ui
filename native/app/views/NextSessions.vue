@@ -1,8 +1,6 @@
 <template>
   <Layout :isLoading="sessions.isLoading || signups.isLoading">
-    <PullToRefresh v-if="!hasSessions && !sessions.isLoading && !signups.isLoading" @refresh="getSessionsInfo">
-      <NoDataMessage :message="message" />
-    </PullToRefresh>   
+    <NoDataMessage v-if="!hasSessions && !sessions.isLoading && !signups.isLoading" message="No trainning sessions yet." />
     <PullToRefresh else @refresh="getSessionsInfo">
       <ScrollView :isScrollEnabled="!sessions.isLoading || !signups.isLoading" width="100%" height="100%">
         <StackLayout class="p-y-10">
@@ -73,23 +71,12 @@ export default {
     const user = JSON.parse(getUserInfo())
     return {      
       userID: user.ID,
-      backEnd: store.state.backEnd
     }
   },
 
   components: {
     Layout,
     NoDataMessage,
-  },
-
-  computed: {
-    message() {
-      if (this.backEnd.noConnection) {
-        return "No internet Connection"
-      } else {
-        return "No trainning sessions yet."
-      }
-    }
   },
 
   mixins: [nextSessions],

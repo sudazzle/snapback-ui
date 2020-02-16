@@ -71,10 +71,6 @@ const store = {
     this.state.backEnd.headers["Authorization"] = `Bearer ${token}`
   },
 
-  // setCSRFToken(token) {
-  //   this.state.backEnd.headers["X-CSRF-TOKEN"] = token
-  // },
-
   setIsLoading(type, val = true) {
     this.state[type].isLoading = val
   },
@@ -200,10 +196,9 @@ const store = {
   //   this.setIsLoading("mySignups", false)
   // },
 
-  setBackendError(error, entity = null, action = null) {
-    this.state.backEnd.error = error
-    this.state.backEnd.entity = entity
-    this.state.backEnd.action = action
+  setBackendError(errorForPage = false, errorForLayout = false) {
+    this.state.backEnd.errorForPage = errorForPage
+    this.state.backEnd.errorForLayout = errorForLayout
   }
 }
 
