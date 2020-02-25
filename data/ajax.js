@@ -37,6 +37,8 @@ const ajax = async (method = "get", url, body = {}) => {
       message = "No internet connection."
     }
 
+    console.log("message", message)
+
     store.setBackendError(false, message)
   }
 }

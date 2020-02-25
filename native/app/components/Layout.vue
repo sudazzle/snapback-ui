@@ -1,11 +1,10 @@
 <template>
   <AbsoluteLayout @loaded="onLoadedHandler" ref="rootLayout" width="100%" height="100%">
-    <StackLayout left="0" top="0" width="100%" height="100%">
-      <!--<PullToRefresh v-if="!hasSessions && !sessions.isLoading && !signups.isLoading" @refresh="getSessionsInfo">
-        <NoDataMessage :message="message" />
-      </PullToRefresh> -->
-      <slot />
-    </StackLayout>
+    <!--<PullToRefresh left="0" top="0" width="100%" height="100%" @refresh="$emit('refresh', $event)">
+    </PullToRefresh>-->
+    <ScrollView left="0" top="0" width="100%" height="100%">
+        <slot />
+      </ScrollView>
     <AbsoluteLayout v-if="addButton" ref="fabItemPosition" marginTop="87%" marginLeft="77%">
       <Button
         @tap="onButtonTapHandler"
@@ -28,14 +27,24 @@
 
 <script>
   import Loading from "./Loading.vue"
+  import NoDataMessage from "./NoDataMessage.vue"
+  import store from "../../../data/store"
   const app = require("tns-core-modules/application")
   const platform = require("tns-core-modules/platform")
   
   export default {
     props: ["isLoading", "addButton"],
 
+    data() {
+      console.log("here we come", store.state.backEnd.errorForLayout)
+      return {
+        backend: store.state.backEnd
+      }
+    },
+
     components: {
       Loading,
+      NoDataMessage,
     },
 
     methods: {

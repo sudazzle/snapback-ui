@@ -1,9 +1,9 @@
 <template>
   <Layout :isLoading="sessions.isLoading || signups.isLoading">
-    <NoDataMessage v-if="!hasSessions && !sessions.isLoading && !signups.isLoading" message="No trainning sessions yet." />
-    <PullToRefresh else @refresh="getSessionsInfo">
-      <ScrollView :isScrollEnabled="!sessions.isLoading || !signups.isLoading" width="100%" height="100%">
-        <StackLayout class="p-y-10">
+    <PullToRefresh left="0" top="0" width="100%" height="100%" @refresh="getSessionsInfo">
+      <ScrollView width="100%" height="100%">
+        <NoDataMessage v-if="backend.errorForLayout" :message="backend.errorForLayout" />
+        <StackLayout v-else-if="hasSessions" class="p-y-10">
           <StackLayout
             class="m-x-15 m-y-5 p-30 sessions"
             v-for="session in sessions.data" 
@@ -54,6 +54,8 @@
             >Already signed up</Label>
           </StackLayout>
         </StackLayout>
+        <NoDataMessage v-else message="No trainning sessions yet." />
+        <slot v-else />
       </ScrollView>
     </PullToRefresh>
   </Layout>
@@ -71,6 +73,7 @@ export default {
     const user = JSON.parse(getUserInfo())
     return {      
       userID: user.ID,
+      backend: store.state.backEnd
     }
   },
 
@@ -83,6 +86,7 @@ export default {
 
   methods: {
     getSessionsInfo(args) {
+      console.log("got here on refresth")
       const pullRefresh = args.object
 
       if (!this.sessions.isLoading && !this.signups.isLoading) {

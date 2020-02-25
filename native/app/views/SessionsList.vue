@@ -1,7 +1,15 @@
 <template>
   <Layout addButton="true" :isLoading="sessions.isLoading" @itemAddEvent="goToAddSession">
-    <NoDataMessage v-if="!hasSessions && !sessions.isLoading" message="No sessions yet." />
-    <RadListView else ref="listView"
+    <PullToRefresh
+      width="100%"
+      height="100%"
+      v-if="backend.errorForLayout || (!hasSessions && !sessions.isLoading)"
+      @refresh="onPullToRefreshInitiated"
+    >
+      <NoDataMessage v-if="backend.errorForLayout" :message="backend.errorForLayout" />
+      <NoDataMessage v-else message="No sessions yet." />
+    </PullToRefresh>
+    <RadListView v-else
         for="item in sessions.data"
         swipeActions="true"
         pullToRefresh="true"
@@ -70,6 +78,12 @@ import SessionStart from "./SessionStart.vue"
 import sessions from "../../../mixins/sessions"
 
 export default {
+  data() {
+    return {
+      backend: store.state.backEnd
+    }
+  },
+
   components: { Layout, NoDataMessage },
 
   mixins: [sessions],
@@ -115,7 +129,12 @@ export default {
       getSessions({ limit, page: 1 }).then((sessions) => {
         store.resetSessions()
         store.setSessions(sessions, 1)  
-        object.notifyPullToRefreshFinished()
+      }).finally(() => {
+        if (object.refreshing) {
+          object.refreshing = false
+        } else {
+          object.notifyPullToRefreshFinished()
+        }
       })
     },
 
