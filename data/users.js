@@ -21,9 +21,8 @@ const whoAmI = async function () {
 }
 
 const updateUser = async function ({ payload, id }) {
-  console.log("url")
-  // const url = id ? `/users/${id}` : "/update-my-info"
-  // return await ajax("patch", url, payload)
+  const url = id ? `/users/${id}` : "/update-my-info"
+  return await ajax("patch", url, payload)
 }
 
 const changeUserPassword = async function ({ payload, id }) {

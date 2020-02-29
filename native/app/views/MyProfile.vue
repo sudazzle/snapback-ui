@@ -2,9 +2,10 @@
   <Page class="page">
     <ActionBarWithBackButton :processing="currentUser.isLoading" title="Member Profile" />
     <Layout :isLoading="currentUser.isLoading">
-      <PullToRefresh @refresh="getMyInfo">
-        <ScrollView>
-          <StackLayout class="p-y-10">
+      <PullToRefresh left="0" top="0" width="100%" height="100%" @refresh="getMyInfo">
+        <ScrollView width="100%" height="100%">
+          <NoDataMessage v-if="backend.errorForLayout" :message="backend.errorForLayout" />
+          <StackLayout v-else class="p-y-10">
             <Label class="h3 text-uppercase snapback-primary-text m-t-10 p-b-0 m-b-0 p-x-15">General Information</Label>
             <UserForm
               :processing="currentUser.isLoading"
@@ -62,6 +63,7 @@
 </template>
 <script>
 import ActionBarWithBackButton from "../components/ActionBarWithBackButton.vue"
+import NoDataMessage from "../components/NoDataMessage.vue"
 import ErrorMessage from "../components/ErrorMessage.vue" 
 import PasswordForm from "../components/PasswordForm.vue"
 import Layout from "../components/Layout.vue"
@@ -71,14 +73,20 @@ import UserForm from "../components/UserForm.vue"
 import myProfile from "../../../mixins/myProfile"
 
 import { validatePassword, validateUserForm } from "../../../utils/common"
-import { whoAmI, updateUser, changeUserPassword } from "../../../data/users"
 import store from "../../../data/store"
 import { makeAlert, signOut } from "../utils"
 
 export default {
+  data() {
+    return {      
+      backend: store.state.backEnd
+    }
+  },
+
   components: {
     ActionBarWithBackButton,
     ErrorMessage,
+    NoDataMessage,
     Layout,
     PasswordForm,
     UserForm,

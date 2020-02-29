@@ -2,9 +2,10 @@
   <Page class="page">
     <ActionBarWithBackButton :processing="processing" :title="(isCreate ? 'Create' : 'Update') + ' Session'" />
     <Layout :isLoading="processing">
-      <PullToRefresh @refresh="_getSessionById">
-        <ScrollView>
-          <StackLayout>
+      <PullToRefresh left="0" top="0" width="100%" height="100%" @refresh="_getSessionById">
+        <ScrollView width="100%" height="100%">
+          <NoDataMessage v-if="backend.errorForLayout" :message="backend.errorForLayout" />
+          <StackLayout v-else>
             <TextFieldWithLabelAndError
               label="Title"
               :errorMessage="titleErr"
@@ -88,6 +89,7 @@ import TimePickerModal from "../components/TimePickerModal.vue"
 import TextFieldWithLabelAndError from "../components/TextFieldWithLabelAndError.vue"
 import App from "../App.vue"
 import sessionForm from "../../../mixins/sessionForm"
+import NoDataMessage from "../components/NoDataMessage.vue"
 import store from "../../../data/store"
 
 import { makeAlert } from "../utils"
@@ -106,6 +108,7 @@ export default {
       days,
       hours,
       minutes,
+      backend: store.state.backEnd
     }
   },
 

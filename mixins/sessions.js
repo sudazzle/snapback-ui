@@ -29,6 +29,8 @@ export default {
         this.pages[page] = sessions
         store.setSessions(sessions)
         callback && callback()
+      }).finally(() => {
+        store.setIsLoading("sessions", false)
       })
     },
 
@@ -42,6 +44,8 @@ export default {
         this.deleteSuccessCallback && this.deleteSuccessCallback()
       }).catch((err) => {
         this.deleteErrorCallback && this.deleteErrorCallback()
+      }).finally(() => {
+        store.setIsLoading("sessions", false)
       })
     },
   },

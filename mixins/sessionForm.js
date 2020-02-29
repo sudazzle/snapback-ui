@@ -60,10 +60,15 @@ export default {
           store.setSelectedTime({ hour, minute })
           this.processing = false
 
+        }).finally(() => {
           if (args) {
             args.object.refreshing = false
           }
         })
+      } else {
+        if (args) {
+          args.object.refreshing = false
+        }
       }
     },
 
@@ -126,8 +131,8 @@ export default {
           store.setIsLoading("sessions")
           getSessions({}).then((sessions) => {
             store.setSessions(sessions)
+            this.redirectCallback && this.redirectCallback()
           })
-          this.redirectCallback && this.redirectCallback()
         }).catch((err) => {
           const message = "Something went wrong. Try again."
           this.errorCallback && this.errorCallback(message)
@@ -136,14 +141,13 @@ export default {
         })
       } else {
         const id = this.session_id || this.$route.params.id
-        console.log("payload", payload)
         updateSession({ payload, id }).then(() => {
           store.setIsLoading("sessions")
           getSessions({}).then((sessions) => {
             store.setSessions(sessions)
+            this.successCallback && this.successCallback(message)
           })
           const message = "Training session updated."
-          this.successCallback && this.successCallback(message)
         }).catch(() => {
           const message = "Something went wrong. Try again."
           this.errorCallback && this.errorCallback(message)

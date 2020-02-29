@@ -21,7 +21,7 @@ export default {
     store.setIsLoading("currentUser")
     this.getMyInfo()
   },
-
+  
   methods: {
     getMyInfo(args) {
       whoAmI().then((res) => {
@@ -29,7 +29,8 @@ export default {
         this.name = name
         this.email = email
         store.setCurrentUser(res)
-        // store.setIsLoading("currentUser", false)
+      }).finally(() => {
+        store.setIsLoading("currentUser", false)
         if (args) {
           args.object.refreshing = false
         }
@@ -75,7 +76,7 @@ export default {
       }
 
       this.passwordFormError = null
-
+      updateUserupdateUser
       store.setIsLoading("currentUser")
 
       const payload = { password }

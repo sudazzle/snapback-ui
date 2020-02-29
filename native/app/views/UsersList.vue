@@ -62,7 +62,7 @@ export default {
     }
   },
 
-  components: { Layout,NoDataMessage },
+  components: { Layout, NoDataMessage },
 
   mixins: [usersList],
 
@@ -94,7 +94,6 @@ export default {
         store.resetUsers()
         store.setUsers(users, 1)
       }).finally(() => {
-        console.log("should be here")
         if (object.refreshing) {
           object.refreshing = false
         } else {

@@ -30,13 +30,18 @@ export default {
 
   methods: {
     _getUserById(args) {
-      const id = this.userId || this.$route.params.id
+      let id = this.userId
+
+      if (this.$route && this.$route.params.id) {
+        id = this.$route.params.id
+      }
+
       getUserById({ id }).then(({ name, email, role }) => {
         this.name = name
         this.email = email
         this.role = role
         this.processing = false
-
+      }).finally(() => {
         if (args) {
           args.object.refreshing = false
         }
