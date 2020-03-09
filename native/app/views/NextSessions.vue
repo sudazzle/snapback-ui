@@ -25,6 +25,12 @@
               textWrap="true"
               :text="session.description"
             />
+            <template 
+              v-if="session.signups >= session.max_participants && !hasSignedUpForThisSession(session.id)"
+            >
+              <Label class="text-center" color="#ff0000" v-if="session.signups - session.max_participants === 0">Signup to be first in the waiting list.</Label>
+              <Label class="text-center" color="#ff0000" else>{{session.signups - session.max_participants}} people in the waiting list.</Label>
+            </template>
             <Button
               :isEnabled="!sessions.isLoading && !signups.isLoading"
               fontSize="20"
@@ -33,7 +39,7 @@
               textTransform="uppercase"
               backgroundColor="#DC2B7B"
               class="bg-primary -rounded-sm"
-              v-if="!isSessionOwner(session.user_id) && !hasSignedUpForThisSession(session.ID)"
+              v-if="!isSessionOwner(session.user_id) && !hasSignedUpForThisSession(session.id)"
               @tap="signUpHandler(session.id)"
             >Sign up</Button>
             <Label
@@ -86,7 +92,6 @@ export default {
 
   methods: {
     getSessionsInfo(args) {
-      console.log("got here on refresth")
       const pullRefresh = args.object
 
       if (!this.sessions.isLoading && !this.signups.isLoading) {

@@ -27,19 +27,21 @@ const ajax = async (method = "get", url, body = {}) => {
       }
     }
 
-    let message
+    let appError = false
+    let pageError = false
 
     if (error.response.status === 500) {
-      message = "Something happends on our side. Sorry for inconvenience."
+      appError = "Something happends on our side. Sorry for inconvenience."
+      pageError = false
     } else if (error.response.status !== null) {
-      message = error.response.data.message
+      appError = false
+      pageError = error.response.data.message
     } else {
-      message = "No internet connection."
+      pageError = false
+      appError = "No internet connection."
     }
 
-    console.log("message", message)
-
-    store.setBackendError(false, message)
+    store.setBackendError(pageError, appError)
   }
 }
 

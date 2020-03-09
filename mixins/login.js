@@ -9,7 +9,7 @@ export default {
     return {
       email: "",
       password: "",
-      err: false,
+      err: store.state.backEnd,
       passwordFormError: null,
       userFormError: null,
       currentUser: store.state.currentUser,
@@ -52,12 +52,11 @@ export default {
       store.setIsLoading("currentUser")
       logIn({ payload })
         .then((user) => {
-          this.err = false
-          store.setAuthHeader(user.token)
-          this.loginSuccesCallback(user)
-        })
-        .catch((err) => {
-          this.err = err.response.status ? err.response.data.message : "Internet Connection Error."
+          if (user) {
+            store.setAuthHeader(user.token)
+            store.setBackendError(false, false)
+            this.loginSuccesCallback(user)
+          }
         })
         .finally(() => {
           store.setIsLoading("currentUser", false)

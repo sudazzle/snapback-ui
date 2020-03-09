@@ -32,7 +32,7 @@
             {{passwordFormError && passwordFormError.message}}
           </b-form-invalid-feedback>
         </p>
-        <p v-if="err" class="mt-2 error-msg">{{err}}</p>
+        <p v-if="err.errorForPage" class="mt-2 error-msg">{{err.errorForPage}}</p>
         <p class="mt-3">
           <button type="submit">Login</button>
           <router-link class="forgot-pass" to="/reset-password">Reset password</router-link>

@@ -31,6 +31,7 @@
                 class="bg-primary -rounded-sm snapback-primary-bg"
                 @tap="cancelSignup(signup.signup_id)"
               >Cancel Sign up</Button>
+              <Label class="text-center" color="#ff0000" v-if="signup.status === 'waiting'">You are number {{ signup.queue_no }} in the queue.</Label>
           </StackLayout>
         </StackLayout>
         <NoDataMessage v-else message="You have not signed up for any sessions." />
