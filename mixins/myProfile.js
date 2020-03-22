@@ -25,6 +25,7 @@ export default {
   methods: {
     getMyInfo(args) {
       whoAmI().then((res) => {
+        console.log('res', res)
         const { name, email } = res
         this.name = name
         this.email = email
@@ -76,7 +77,6 @@ export default {
       }
 
       this.passwordFormError = null
-      updateUserupdateUser
       store.setIsLoading("currentUser")
 
       const payload = { password }

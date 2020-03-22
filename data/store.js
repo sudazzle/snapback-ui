@@ -104,6 +104,18 @@ const store = {
     this.state.selectedDate.weekDay = weekDay
   },
 
+  removeUser(id) {
+    this.state.users.data = this.state.users.data.filter(user => id !== user.ID)
+  },
+
+  removeSession(id) {
+    this.state.sessions.data = this.state.sessions.data.filter(session => {
+      console.log('remove session', id)
+      console.log('remove ID', session.ID)
+      return id !== session.ID
+    })
+  },
+
   resetSelectedDate() {
     this.setSelectedDate({ ...getDefaultDate() })
   },
@@ -124,13 +136,6 @@ const store = {
   setSelectedDay(day) {
     this.state.selectedDate.day = prependZero(day)
   },
-
-  // removeSession(id) {
-  //   const sessions = this.state.sessions.data
-  //   const index = sessions.findIndex((elem) => id === elem.ID)
-  //   index && sessions.splice(index, 1)
-  //   this.setIsLoading("sessions", false)
-  // },
 
   setCurrentUser({ name, email, role, ID }) {
     const currentUser = this.state.currentUser.data
@@ -157,23 +162,6 @@ const store = {
     this.setIsLoading("users", false)
   },
 
-  // setUsers(users) {
-  //   const thisUsers = this.state.users.data
-  //   users.forEach((element) => {
-  //     const exists = thisUsers.find((elem) => elem.ID === element.ID)
-  //     !exists && thisUsers.push(element)
-  //   })
-
-  //   this.setIsLoading("users", false)
-  // },
-
-  // removeUser(id) {
-  //   const users = this.state.users.data
-  //   const index = users.findIndex((elem) => id === elem.ID)
-  //   index && users.splice(index, 1)
-  //   this.setIsLoading("users", false)
-  // },
-
   setNextSessions(sessions) {
     const nextSessions = this.state.nextSessions.data
     clearArray(nextSessions)
@@ -187,14 +175,6 @@ const store = {
     pushToArrayFromArray(sessions, mySignups)
     this.setIsLoading("mySignups", false)
   },
-  // removeSignups(signup_id) {
-  //   console.log("signup", signup_id)
-  //   const signups = this.state.mySignups.data
-  //   const index = signups.findIndex((elem) => signup_id === elem.signup_id)
-  //   console.log("index", index)
-  //   index && signups.splice(index, 1)
-  //   this.setIsLoading("mySignups", false)
-  // },
 
   setBackendError(errorForPage = false, errorForLayout = false) {
     this.state.backEnd.errorForPage = errorForPage

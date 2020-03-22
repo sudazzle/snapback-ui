@@ -1,15 +1,12 @@
 <template>
-  <Layout addButton="true" :isLoading="users.isLoading" @itemAddEvent="goToAddUser">
-    <PullToRefresh
-      width="100%"
-      height="100%"
-      v-if="backend.errorForLayout || (users.data.length < 0 && !users.isLoading)"
-      @refresh="onPullToRefreshInitiated"
-    >
-      <NoDataMessage v-if="backend.errorForLayout" :message="backend.errorForLayout" />
-      <NoDataMessage v-else message="No users." />
-    </PullToRefresh>
-    <RadListView v-else
+  <Layout
+    addButton="true"
+    :noDataMessage="noDataMessage"
+    :isLoading="users.isLoading"
+    @refresh="onPullToRefreshInitiated"
+    @itemAddEvent="goToAddUser"
+  >
+    <RadListView
       for="item in users.data"
       swipeActions="true"
       pullToRefresh="true"
@@ -28,6 +25,7 @@
           orientation="vertical"
         >
           <Label :text="item.name" class="nameLabel"></Label>
+          <Label fontSize="12px" :text="item.email" class="snpaback-secondary-text"></Label>
         </StackLayout>
       </v-template>
       <v-template name="itemswipe">
@@ -50,7 +48,6 @@
 <script>
 import CreateNEditUser from "./CreateNEditUser.vue"
 import Layout from "../components/Layout.vue"
-import NoDataMessage from "../components/NoDataMessage.vue"
 import store from "../../../data/store"
 import usersList from "../../../mixins/usersList"
 import { getUsers } from "../../../data/users"
@@ -62,7 +59,16 @@ export default {
     }
   },
 
-  components: { Layout, NoDataMessage },
+  computed: {
+    noDataMessage() {
+      return {
+        message: "No users.",
+        show: !this.hasUsers
+      }
+    }
+  },
+
+  components: { Layout },
 
   mixins: [usersList],
 
@@ -114,6 +120,10 @@ export default {
 
     goToAddUser() {
       this.$navigateTo(CreateNEditUser)
+    },
+
+    successCallback(id) {
+      store.removeUser(id)
     },
 
     gotoUserUpdatePage(user) {

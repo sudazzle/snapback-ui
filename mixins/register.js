@@ -15,6 +15,7 @@ export default {
       userFormError: null,
       generalErr: null,
       currentUser: store.state.currentUser,
+      backend: store.state.backEnd
     }
   },  
 
@@ -44,9 +45,9 @@ export default {
       store.setIsLoading("currentUser")
       createNewUser({ payload }).then(() => {
         this.generalErr = null
-        this.registerSuccessCallback()
-      }).catch((err) => {
-        this.generalErr = err.response.data ? err.response.data.message : "Internet connection error."
+        if (!store.state.backEnd.errorForPage) {
+          this.registerSuccessCallback()
+        }
       }).finally(() => {
         store.setIsLoading("currentUser", false)
       })

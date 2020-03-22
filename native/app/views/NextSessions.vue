@@ -1,74 +1,69 @@
 <template>
-  <Layout :isLoading="sessions.isLoading || signups.isLoading">
-    <PullToRefresh left="0" top="0" width="100%" height="100%" @refresh="getSessionsInfo">
-      <ScrollView width="100%" height="100%">
-        <NoDataMessage v-if="backend.errorForLayout" :message="backend.errorForLayout" />
-        <StackLayout v-else-if="hasSessions" class="p-y-10">
-          <StackLayout
-            class="m-x-15 m-y-5 p-30 sessions"
-            v-for="session in sessions.data" 
-            :key="'session' + session.id"
-          >
-            <Label
-              class="h2 snapback-primary-text text-center font-weight-bold"
-              :text="session.title"
-            />
-            <Label
-              color="#3D586D"
-              class="h3 text-center font-weight-bold"
-              :text="stringToDateTime(session.date_n_time) + ' ' + getTime(session.date_n_time)"
-            />
-            <Label
-              v-if="session.description !== ''"
-              color="#888"
-              class="h4 text-center p-10"
-              textWrap="true"
-              :text="session.description"
-            />
-            <template 
-              v-if="session.signups >= session.max_participants && !hasSignedUpForThisSession(session.id)"
-            >
-              <Label class="text-center" color="#ff0000" v-if="session.signups - session.max_participants === 0">Signup to be first in the waiting list.</Label>
-              <Label class="text-center" color="#ff0000" else>{{session.signups - session.max_participants}} people in the waiting list.</Label>
-            </template>
-            <Button
-              :isEnabled="!sessions.isLoading && !signups.isLoading"
-              fontSize="20"
-              height="55"
-              width="140"
-              textTransform="uppercase"
-              backgroundColor="#DC2B7B"
-              class="bg-primary -rounded-sm"
-              v-if="!isSessionOwner(session.user_id) && !hasSignedUpForThisSession(session.id)"
-              @tap="signUpHandler(session.id)"
-            >Sign up</Button>
-            <Label
-              class="bg-primary text-center badge"
-              textWrap="true"
-              variant="info"
-              v-if="isSessionOwner(session.user_id)"
-            >Owner</Label>
-            <Label
-              width="180"
-              borderRadius="50%"
-              padding="7"
-              borderColor="#aaa"
-              color="#aaa"
-              borderWidth="1"
-              class="text-center"
-              v-if="hasSignedUpForThisSession(session.id, session.title)"
-            >Already signed up</Label>
-          </StackLayout>
-        </StackLayout>
-        <NoDataMessage v-else message="No trainning sessions yet." />
-        <slot v-else />
-      </ScrollView>
-    </PullToRefresh>
+  <Layout
+    pullToRefresh="true"
+    :isLoading="sessions.isLoading || signups.isLoading"
+    :noDataMessage="noDataMessage"
+    @refresh="getSessionsInfo"
+  >
+    <StackLayout
+      class="m-x-15 m-y-5 p-30 sessions"
+      v-for="session in sessions.data" 
+      :key="'session' + session.id"
+    >
+      <Label
+        class="h2 snapback-primary-text text-center font-weight-bold"
+        :text="session.title"
+      />
+      <Label
+        color="#3D586D"
+        class="h3 text-center font-weight-bold"
+        :text="stringToDateTime(session.date_n_time) + ' ' + getTime(session.date_n_time)"
+      />
+      <Label
+        v-if="session.description !== ''"
+        color="#888"
+        class="h4 text-center p-10"
+        textWrap="true"
+        :text="session.description"
+      />
+      <template 
+        v-if="session.signups >= session.max_participants && !hasSignedUpForThisSession(session.id)"
+      >
+        <Label class="text-center" color="#ff0000" v-if="session.signups - session.max_participants === 0">Signup to be first in the waiting list.</Label>
+        <Label class="text-center" color="#ff0000" else>{{session.signups - session.max_participants}} people in the waiting list.</Label>
+      </template>
+      <Button
+        :isEnabled="!sessions.isLoading && !signups.isLoading"
+        fontSize="20"
+        height="55"
+        width="140"
+        textTransform="uppercase"
+        backgroundColor="#DC2B7B"
+        class="bg-primary -rounded-sm"
+        v-if="!isSessionOwner(session.user_id) && !hasSignedUpForThisSession(session.id)"
+        @tap="signUpHandler(session.id)"
+      >Sign up</Button>
+      <Label
+        class="bg-primary text-center badge"
+        textWrap="true"
+        variant="info"
+        v-if="isSessionOwner(session.user_id)"
+      >Owner</Label>
+      <Label
+        width="180"
+        borderRadius="50%"
+        padding="7"
+        borderColor="#aaa"
+        color="#aaa"
+        borderWidth="1"
+        class="text-center"
+        v-if="hasSignedUpForThisSession(session.id, session.title)"
+      >Already signed up</Label>
+    </StackLayout>
   </Layout>
 </template>
 <script>
 import Layout from "../components/Layout.vue"
-import NoDataMessage from "../components/NoDataMessage.vue"
 import nextSessions from "../../../mixins/nextSessions"
 
 import { getUserInfo } from "../utils"
@@ -85,7 +80,15 @@ export default {
 
   components: {
     Layout,
-    NoDataMessage,
+  },
+
+  computed: {
+    noDataMessage() {
+      return {
+        message: "No trainning sessions yet.",
+        show: !this.hasSessions
+      }
+    }
   },
 
   mixins: [nextSessions],

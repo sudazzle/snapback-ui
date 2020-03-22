@@ -45,11 +45,11 @@
       },
 
       approveSuccessCallback() {
-        showAlert()
+        this.showAlert()
       },
 
       approveErrorCallback() {
-        showAlert()
+        this.showAlert()
       },
 
       showAlert() {

@@ -63,6 +63,7 @@
           </b-form-invalid-feedback>
         </p>
         <p v-if="generalErr !== ''" class="error-msg">{{generalErr}}</p>
+        <p v-if="backend.errorForPage" class="error-msg">{{backend.errorForPage}}</p>
         <p>
           <button>Submit</button>
           <span>Already a member?<router-link to="/login">Login</router-link></span>

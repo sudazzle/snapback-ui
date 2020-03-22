@@ -29,16 +29,24 @@ export default {
 
   created() {
     this.fetching = true
-    const id = this.sessionId || this.$route.params.id
-
-    getSignupsById({ id })
-      .then((users) => {
-        this.fetching = false
-        this.signedupUsers = users
-      })
+    this._getSignupsById()
   },
 
   methods: {
+    _getSignupsById(args) {
+      const id = this.sessionId || this.$route.params.id
+
+      getSignupsById({ id })
+        .then((users) => {
+          this.signedupUsers = users
+        }).finally(() => {
+          this.fetching = false
+          if (args.object) {
+            args.object.refreshing = false
+          }
+        })
+    },
+
     addRemoveUser(signup_id, e) {
       let enableCheck = true
       if (e) {

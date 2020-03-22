@@ -144,7 +144,7 @@
       },
     },
 
-    created() {
+    mounted() {
         // this.$refs.drawer.showDrawer()
       firebase.init({
         // Optionally pass in properties for database, authentication and cloud messaging,

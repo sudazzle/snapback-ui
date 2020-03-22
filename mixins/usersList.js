@@ -34,9 +34,8 @@ export default {
     deleteUser() {
       deleteUserById({ id: this.deleteItem }).then(() => {
         // this._getUsers()
-        this.successCallback && this.successCallback()
+        this.successCallback && this.successCallback(this.deleteItem)
       }).catch((err) => {
-        console.log("err", err)
         this.errorCallback && this.errorCallback()
       })
     },

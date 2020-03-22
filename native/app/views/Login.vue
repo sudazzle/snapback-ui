@@ -22,7 +22,7 @@
             @passwordValueChange="setValue"
             errorMessageAlignment="center"
           />
-          <ErrorMessage :errorMessage="err" />
+          <ErrorMessage v-if="err.errorForPage" :errorMessage="err.errorForPage" />
           <Button
             :isEnabled="!currentUser.isLoading"
             height="auto"

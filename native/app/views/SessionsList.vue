@@ -1,23 +1,21 @@
 <template>
-  <Layout addButton="true" :isLoading="sessions.isLoading" @itemAddEvent="goToAddSession">
-    <PullToRefresh
-      width="100%"
-      height="100%"
-      v-if="backend.errorForLayout || (!hasSessions && !sessions.isLoading)"
-      @refresh="onPullToRefreshInitiated"
-    >
-      <NoDataMessage v-if="backend.errorForLayout" :message="backend.errorForLayout" />
-      <NoDataMessage v-else message="No sessions yet." />
-    </PullToRefresh>
-    <RadListView v-else
-        for="item in sessions.data"
-        swipeActions="true"
-        pullToRefresh="true"
-        @pullToRefreshInitiated="onPullToRefreshInitiated"
-        @itemSwipeProgressStarted="onSwipeStarted"
-        loadOnDemandMode="Manual"
-        @loadMoreDataRequested="onLoadMoreItemsRequested"
-        @itemTap="editSessionNative">
+  <Layout
+    addButton="true"
+    :noDataMessage="noDataMessage"
+    :isLoading="sessions.isLoading"
+    @itemAddEvent="goToAddSession"
+    @refresh="onPullToRefreshInitiated"
+  >
+    <RadListView
+      ref="listView"
+      for="item in sessions.data"
+      swipeActions="true"
+      pullToRefresh="true"
+      @pullToRefreshInitiated="onPullToRefreshInitiated"
+      @itemSwipeProgressStarted="onSwipeStarted"
+      :loadOnDemandMode="sessions.isLoading ? 'none' : 'Manual'"
+      @loadMoreDataRequested="onLoadMoreItemsRequested"
+      @itemTap="editSessionNative">
       <v-template>
         <StackLayout
           class="item"
@@ -32,20 +30,11 @@
         </StackLayout>
       </v-template>
       <v-template name="itemswipe">
-        <GridLayout columns="*, auto, auto, auto" backgroundColor="white" padding="0">
-          <StackLayout
-            backgroundColor="#3498DB"
-            id="cancel-btn"
-            color="white"
-            col="1"
-            orientation="horizontal"
-          >
-            <Label width="60" textAlignment="center" text="cancel" verticalAlignment="center" horizontalAlignment="center" />
-          </StackLayout>
+        <GridLayout columns="*, auto, auto" backgroundColor="white" padding="0">
           <StackLayout
             id="start-btn"
             color="white"
-            col="2"
+            col="1"
             @tap="startSessionNative"
             orientation="horizontal"
             backgroundColor="#F1C40F"
@@ -53,24 +42,23 @@
             <Label width="60" textAlignment="center" text="Start" verticalAlignment="center"  horizontalAlignment="center" />
           </StackLayout>
           <StackLayout
-            backgroundColor="#E74C3C"
+            backgroundColor="#3498DB"
             id="delete-btn"
             @tap="confirmDeleteNative"
             color="white"
-            col="3"
+            col="2"
             orientation="horizontal"
           >
-            <Label width="60" textAlignment="center" text="delete" verticalAlignment="center" horizontalAlignment="center" />
+            <Label width="60" textAlignment="center" text="cancel" verticalAlignment="center" horizontalAlignment="center" />
           </StackLayout>
         </GridLayout>
       </v-template>
-    </RadListView>      
+    </RadListView>
   </Layout>
 </template>
 <script>
 import { getSessions } from "../../../data/sessions"
 import store from "../../../data/store"
-import NoDataMessage from "../components/NoDataMessage.vue"
 import CreateSession from "./SessionForm.vue"
 import Layout from "../components/Layout.vue"
 import { stringToDateTime } from "../../../utils/common"
@@ -84,7 +72,16 @@ export default {
     }
   },
 
-  components: { Layout, NoDataMessage },
+  components: { Layout },
+
+  computed: {
+    noDataMessage() {
+      return {
+        message: "No sessions yet.",
+        show: !this.hasSessions
+      }
+    }
+  },
 
   mixins: [sessions],
 
@@ -107,16 +104,14 @@ export default {
     onSwipeStarted ({ data, mainView, swipeView, index }) {
       if (!this.sessions.isLoading) {
         const item = mainView.bindingContext
-        const cancelItem = swipeView.getViewById("cancel-btn")
         const deleteItem = swipeView.getViewById("delete-btn")
         const startItem = swipeView.getViewById("start-btn")
         const swipeLimits = data.swipeLimits
 
-        swipeLimits.right = cancelItem.getMeasuredWidth() + deleteItem.getMeasuredWidth() + startItem.getMeasuredWidth()
-        swipeLimits.threshold = cancelItem.getMeasuredWidth()
+        swipeLimits.right = deleteItem.getMeasuredWidth() + startItem.getMeasuredWidth()
+        swipeLimits.threshold = deleteItem.getMeasuredWidth()
         
         if (item.status !== "next") {
-          cancelItem.backgroundColor = "#ddd"
           deleteItem.backgroundColor = "#ddd"
           startItem.backgroundColor = "#ddd"
         }
@@ -138,6 +133,10 @@ export default {
       })
     },
 
+    deleteSuccessCallback(id) {
+      store.removeSession(id)
+    },
+
     editSessionNative({ item }) {
       this.$navigateTo(CreateSession, { props: { session_id: item.ID }})
     },
@@ -149,7 +148,7 @@ export default {
 
     confirmDeleteNative({ object }) {
       this.deleteItem = object.bindingContext.ID
-      confirm("Want to delete this session?")
+      confirm("Are you sure you want to cancel this session?")
         .then(result => {
           if (result) {
             this.deleteSession()

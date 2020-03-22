@@ -1,5 +1,6 @@
 import { createNewUser, updateUser, getUserById, changeUserPassword } from "../data/users"
 import { validatePassword, validateUserForm } from "../utils/common"
+import store from "../data/store"
 
 export default {
   name: "create-edit-user",
@@ -25,6 +26,7 @@ export default {
       userFormError: null,
       generalErrUserForm: false,
       generalErrPasswordForm: false,
+      backend: store.state.backEnd
     }
   },
 
@@ -72,8 +74,8 @@ export default {
         this.successCallback && this.successCallback(message)
       }).catch(() => {
         const message = "Password reset unsuccessful. Try again."
-        this.generalErrPasswordForm = message
-        this.errorCallback && this.errorCallback(message)
+        this.generalErrPasswordForm = this.backend.errorForPage || message
+        // this.errorCallback && this.errorCallback(this.generalErrPasswordForm)
       }).finally(() => {
         this.processing = false
       })
@@ -119,7 +121,8 @@ export default {
           this.successCallback && this.successCallback(message)
         }).catch(() => {
           const message = "Update unsuccessful. Try again."
-          this.errorCallback && this.errorCallback(message)
+          this.generalErrPasswordForm = this.backend.errorForPage || message
+          // this.errorCallback && this.errorCallback(this.generalErrPasswordForm)
         }).finally(() => {
           this.processing = false
         })
@@ -128,7 +131,8 @@ export default {
           this.redirectCallback && this.redirectCallback()
         }).catch(() => {
           const message = "Member create unsuccessful. Try again."
-          this.errorCallback && this.errorCallback(message)
+          this.generalErrUserForm = this.backend.errorForPage || message
+          // this.errorCallback && this.errorCallback(this.generalErrUserForm)
         }).finally(() => {
           this.processing = false
         })

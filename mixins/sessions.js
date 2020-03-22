@@ -34,14 +34,11 @@ export default {
       })
     },
 
-    cancelSession(id) {},
-
     deleteSession() {
       store.setIsLoading("sessions")
 
       deleteSession({ id: this.deleteItem }).then(() => {
-        // this.getSessions()
-        this.deleteSuccessCallback && this.deleteSuccessCallback()
+        this.deleteSuccessCallback && this.deleteSuccessCallback(this.deleteItem)
       }).catch((err) => {
         this.deleteErrorCallback && this.deleteErrorCallback()
       }).finally(() => {

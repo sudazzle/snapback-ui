@@ -1,76 +1,69 @@
 <template>
   <Page class="page">
     <ActionBarWithBackButton :processing="processing" :title="(isCreate ? 'Create' : 'Update') + ' Session'" />
-    <Layout :isLoading="processing">
-      <PullToRefresh left="0" top="0" width="100%" height="100%" @refresh="_getSessionById">
-        <ScrollView width="100%" height="100%">
-          <NoDataMessage v-if="backend.errorForLayout" :message="backend.errorForLayout" />
-          <StackLayout v-else>
-            <TextFieldWithLabelAndError
-              label="Title"
-              :errorMessage="titleErr"
-            >
-              <TextField
-                :isEnabled="!processing"
-                class="-border"
-                v-model="title"
-                returnKeyType="next"
-                ref="title"
-              />
-            </TextFieldWithLabelAndError>
-            <TextFieldWithLabelAndError
-              label="Description"
-            >
-              <TextView :isEnabled="!processing" class="-border" v-model="description" />
-            </TextFieldWithLabelAndError>
-            <TextFieldWithLabelAndError
-              label="Max Participants"
-              :errorMessage="maxParticipantsErr"
-            >
-              <TextField
-                :isEnabled="!processing"
-                class="-border"
-                v-model="max_participants"
-                returnKeyType="next"
-                ref="maxParticipants"
-              />
-            </TextFieldWithLabelAndError>
-            <TextFieldWithLabelAndError label="Date & Time">
-              <FlexboxLayout class="m-x-15 m-t-5">
-                <Label
-                  borderColor="#ccc"
-                  borderWidth="1"
-                  borderRadius="5"
-                  padding="12"
-                  :text="`${selectedDate.year}-${selectedDate.month}-${selectedDate.day}`"
-                  @tap="selectDateNative" />
-                <Label
-                  borderColor="#ccc"
-                  borderWidth="1"
-                  borderRadius="5"
-                  padding="12"
-                  marginLeft="5"
-                  :text="`${selectedTime.hour}:${selectedTime.minute}`"
-                  @tap="selectTimeNative" />
-                <Label
-                  borderRadius="5"
-                  padding="12"
-                  marginLeft="5"
-                  :text="selectedDate.weekDay"
-                />
-              </FlexboxLayout>
-            </TextFieldWithLabelAndError>
-            <Button
-              :isEnabled="!processing"
-              height="auto"
-              padding="20"
-              backgroundColor="#284154"
-              class="-primary m-t-10"
-              @tap="submit"
-            >{{ isCreate ? 'Create' : 'Update'}} Session</Button>
-          </StackLayout>
-        </ScrollView>
-      </PullToRefresh>
+    <Layout  pullToRefresh="true" @refresh="_getSessionById" :isLoading="processing">
+      <TextFieldWithLabelAndError
+        label="Title"
+        :errorMessage="titleErr"
+      >
+        <TextField
+          :isEnabled="!processing"
+          class="-border"
+          v-model="title"
+          returnKeyType="next"
+          ref="title"
+        />
+      </TextFieldWithLabelAndError>
+      <TextFieldWithLabelAndError
+        label="Description"
+      >
+        <TextView :isEnabled="!processing" class="-border" v-model="description" />
+      </TextFieldWithLabelAndError>
+      <TextFieldWithLabelAndError
+        label="Max Participants"
+        :errorMessage="maxParticipantsErr"
+      >
+        <TextField
+          :isEnabled="!processing"
+          class="-border"
+          v-model="max_participants"
+          returnKeyType="next"
+          ref="maxParticipants"
+        />
+      </TextFieldWithLabelAndError>
+      <TextFieldWithLabelAndError label="Date & Time">
+        <FlexboxLayout class="m-x-15 m-t-5">
+          <Label
+            borderColor="#ccc"
+            borderWidth="1"
+            borderRadius="5"
+            padding="12"
+            :text="`${selectedDate.year}-${selectedDate.month}-${selectedDate.day}`"
+            @tap="selectDateNative" />
+          <Label
+            borderColor="#ccc"
+            borderWidth="1"
+            borderRadius="5"
+            padding="12"
+            marginLeft="5"
+            :text="`${selectedTime.hour}:${selectedTime.minute}`"
+            @tap="selectTimeNative" />
+          <Label
+            borderRadius="5"
+            padding="12"
+            marginLeft="5"
+            :text="selectedDate.weekDay"
+          />
+        </FlexboxLayout>
+      </TextFieldWithLabelAndError>
+      <Button
+        :isEnabled="!processing"
+        height="auto"
+        padding="20"
+        backgroundColor="#284154"
+        class="-primary m-t-10"
+        @tap="submit"
+      >{{ isCreate ? 'Create' : 'Update'}} Session</Button>
     </Layout>
   </Page>
 </template>

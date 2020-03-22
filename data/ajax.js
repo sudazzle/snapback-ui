@@ -7,7 +7,6 @@ import store from "./store"
 
 const ajax = async (method = "get", url, body = {}) => {
   const { baseUrl, headers } = store.state.backEnd
-
   store.setBackendError()
   try {
     const instance = axios.create({
@@ -23,6 +22,11 @@ const ajax = async (method = "get", url, body = {}) => {
   } catch (error) {
     for (let [key, value] of Object.entries(store.state)) {
       if (typeof value.isLoading !== "undefined") {
+        if (Array.isArray(value.data)) {
+          store.state[key].data = []
+        } else {
+          store.state[key].data = {}
+        }
         store.setIsLoading(key, false)
       }
     }
