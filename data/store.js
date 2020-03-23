@@ -138,11 +138,7 @@ const store = {
   },
 
   setCurrentUser({ name, email, role, ID }) {
-    const currentUser = this.state.currentUser.data
-    name && (currentUser.name = name)
-    ID && (currentUser.ID = ID)
-    email && (currentUser.email = email)
-    role && (currentUser.role = role)
+    this.state.currentUser.data = { ...this.state.currentUser.data,  name, email, role, ID }
     this.setIsLoading("currentUser", false)
   },
 

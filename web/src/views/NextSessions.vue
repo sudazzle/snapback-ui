@@ -20,6 +20,12 @@
             @click.once="signUpHandler(session.id)"
           >Sign up</b-button>
           <b-badge variant="light" style="font-size: 1.2rem; font-weight: normal;" v-if="isSessionOwner(session.user_id)">You are the trainer</b-badge>
+          <p><b-button
+            v-if="isSessionOwner(session.user_id)"
+            size="lg"
+            variant="primary"
+            @click.once="startSession(session.id)"
+          >Start Session</b-button></p>
           <b-badge style="font-size: 1.2rem; font-weight: normal;" v-if="hasSignedUpForThisSession(session.id)">Already signed up</b-badge>
         </b-jumbotron>
       </div>
@@ -55,7 +61,10 @@
       makeToast,
       signupSuccessCallback() {
         this.makeToast("success", "You have signed up for the training session.")
-      }
+      },
+      startSession(id) {
+        this.$router.push(`/sessions/${id}/start`)
+      },
     }
   }
 </script>

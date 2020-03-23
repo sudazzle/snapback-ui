@@ -23,6 +23,7 @@ function presistUserInfo(user) {
 }
 
 function getUserInfo() {
+  console.log('get info', getString("userInfo"))
   return getString("userInfo")
 }
 

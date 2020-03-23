@@ -43,12 +43,23 @@
         v-if="!isSessionOwner(session.user_id) && !hasSignedUpForThisSession(session.id)"
         @tap="signUpHandler(session.id)"
       >Sign up</Button>
+
       <Label
         class="bg-primary text-center badge"
         textWrap="true"
         variant="info"
         v-if="isSessionOwner(session.user_id)"
       >Owner</Label>
+      <Button
+        :isEnabled="!sessions.isLoading && !signups.isLoading"
+        fontSize="20"
+        height="55"
+        width="200"
+        textTransform="uppercase"
+        class="bg-primary -rounded-sm snapback-primary-bg"
+        v-if="isSessionOwner(session.user_id)"
+        @tap="startSessionNative(session.id)"
+      >Start Session</Button>
       <Label
         width="180"
         borderRadius="50%"
@@ -65,7 +76,7 @@
 <script>
 import Layout from "../components/Layout.vue"
 import nextSessions from "../../../mixins/nextSessions"
-
+import SessionStart from "./SessionStart.vue"
 import { getUserInfo } from "../utils"
 import store from "../../../data/store"
 
@@ -102,6 +113,10 @@ export default {
       } else {
         pullRefresh.refreshing = false
       }
+    },
+
+    startSessionNative(id) {
+      this.$navigateTo(SessionStart, { props: { sessionId: id }})
     },
   },
 }

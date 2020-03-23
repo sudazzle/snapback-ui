@@ -84,7 +84,7 @@
         this[key] = value
       },
 
-      loginSuccesCallback({ token, ID, role }) {
+      loginSuccesCallback({ token, ID, role, name, email }) {
         saveToken("auth", token)
         presistUserInfo({ ID, role })
         this.$navigateTo(App, { clearHistory: true })

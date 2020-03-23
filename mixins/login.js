@@ -54,12 +54,15 @@ export default {
         .then((user) => {
           if (user) {
             store.setAuthHeader(user.token)
+            store.setCurrentUser(user)
             store.setBackendError(false, false)
             this.loginSuccesCallback(user)
           }
         })
         .finally(() => {
-          store.setIsLoading("currentUser", false)
+          setTimeout(() => {
+            store.setIsLoading("currentUser", false)
+          }, 1000)
         })
     },
   }

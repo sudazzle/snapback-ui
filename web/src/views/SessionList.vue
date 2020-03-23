@@ -19,7 +19,7 @@
             <span class="actions">
               <b-button v-if="data.item.status === 'next'" size="sm" variant="primary" @click="editSession(data.item.ID)">Edit</b-button>
               <b-button v-if="data.item.status === 'next'" size="sm" variant="info" @click="startSession(data.item.ID)">Start</b-button>
-              <b-button v-if="data.item.status === 'next'" size="sm" variant="danger" @click="confirmDelete(data.item.ID)">Delete</b-button>
+              <b-button v-if="data.item.status === 'next'" size="sm" variant="danger" @click="confirmDelete(data.item.ID)">Cancel</b-button>
             </span>
           </template>
         </b-table>
@@ -32,7 +32,7 @@
         ></b-pagination>
       </div>
     </div>
-    <DeleteConfirmModal title="Session delete confirmation" v-on:confirm-delete="deleteSession" modalId="modal-1" />
+    <DeleteConfirmModal title="Session cancel confirmation" v-on:confirm-delete="deleteSession" modalId="modal-1" />
   </div>
 </template>
 <script>
@@ -103,12 +103,12 @@
           }
         }
 
-        this.makeToast("success", "Session deleted.")
+        this.makeToast("success", "Session cancelled.")
         this.hideModal()
       },
 
       deleteErrorCallback() {
-        this.makeToast("danger", "Error on session delete."),
+        this.makeToast("danger", "Error on session cancellation."),
         this.hideModal()
       },
 
