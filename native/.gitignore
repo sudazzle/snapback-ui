@@ -7,3 +7,7 @@ node_modules
 # NativeScript application
 hooks
 platforms
+
+.env.default
+
+certs

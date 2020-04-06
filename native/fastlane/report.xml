@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="fastlane.lanes">
+    
+    
+    
+      
+      <testcase classname="fastlane.lanes" name="0: Verifying fastlane version" time="0.009895011">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="1: tns build android --release --clean --env.production --key-store-path ../certs/snapback-release-key.keystore --key-store-password anuvhavaradhana --key-store-alias snapback --key-store-alias-password anuvhavaradhana" time="73.277155289">
+        
+      </testcase>
+    
+  </testsuite>
+</testsuites>

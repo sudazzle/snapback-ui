@@ -41,6 +41,7 @@ module.exports = env => {
         // You can provide the following flags when running 'tns run android|ios'
         snapshot, // --env.snapshot
         production, // --env.production
+        staging, // --env.staging custom
         report, // --env.report
         hmr, // --env.hmr
         sourceMap, // --env.sourceMap
@@ -57,6 +58,7 @@ module.exports = env => {
     const externals = nsWebpack.getConvertedExternals(env.externals);
 
     const mode = production ? "production" : "development"
+    const definemode = staging ? 'staging' : mode
 
     const appFullPath = resolve(projectRoot, appPath);
     const hasRootLevelScopedModules = nsWebpack.hasRootLevelScopedModules({ projectDir: projectRoot });
@@ -159,7 +161,7 @@ module.exports = env => {
                     },
                 },
             },
-            minimize: Boolean(production),
+            minimize: Boolean(production || staging),
             minimizer: [
                 new TerserPlugin({
                     parallel: true,
@@ -275,7 +277,7 @@ module.exports = env => {
             // Define useful constants like TNS_WEBPACK
             new webpack.DefinePlugin({
                 "global.TNS_WEBPACK": "true",
-                "TNS_ENV": JSON.stringify(mode),
+                "TNS_ENV": JSON.stringify(definemode),
                 "process": "global.process"
             }),
             // Remove all files from the out dir.

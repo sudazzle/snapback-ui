@@ -49,13 +49,9 @@ const getBaseUrl = function() {
     baseUrl = "http://10.0.2.2:8000"
     // baseUrl = "http://192.168.11.192:8000"
 
-  }
-
-  if (TNS_ENV === "staging") {
-    baseUrl = "http://145.32.20.100"
-  }
-
-  if (TNS_ENV === "production") {
+  } else if (TNS_ENV === "staging") {
+    baseUrl = "http://snapback.sudaman-shrestha.com"
+  } else {
     baseUrl = "lets see"
   }
 

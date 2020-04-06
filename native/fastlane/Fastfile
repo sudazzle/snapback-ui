@@ -1,0 +1,78 @@
+fastlane_version '2.131.0'
+
+platform :ios do
+  desc 'Fetching certificates and provisioning profiles'
+  lane :certificates do
+    match(type: 'development')
+    match(type: 'appstore')
+    # match(type: 'adhoc')
+  end
+
+  desc 'Build the iOS application'
+  lane :build do
+    sh('tns', 'prepare', 'ios', '--release', '--clean', '--env.production')
+    match(type: 'appstore')
+
+    build_app(
+      scheme: 'Snapback',
+      workspace: './platforms/ios/Snapback.xcworkspace',
+      export_method: 'app-store')
+  end
+
+  desc 'Ship to Testflight.'
+  lane :beta do
+    build
+    changelog_from_git_commits
+    
+    upload_to_testflight(
+      beta_app_feedback_email: 'shrestha.sudaman@gmail.com',
+      beta_app_description: 'Snapback mobile app for simplifying the operation',
+      demo_account_required: false,
+      distribute_external: true,
+      groups: ['beta_testers'],
+      notify_external_testers: true,
+      beta_app_review_info: {
+        contact_email: 'shrestha.sudaman@gmail.com',
+        contact_first_name: 'Sudaman',
+        contact_last_name: 'Shrestha',
+        contact_phone: '+47 45848680',
+        demo_account_name: '',
+        demo_account_password: '',
+        notes: '<3 Thank you for reviewing!'
+      }
+    )
+  end
+end
+
+platform :android do
+  desc 'Build the Android application'
+  lane :build do
+    sh('tns', 'build', 'android', '--release', '--clean', '--env.production',
+       '--key-store-path', '../certs/snapback-release-key.keystore',
+       '--key-store-password', ENV['KEYSTORE_PASSWORD'],
+       '--key-store-alias', ENV['KEYSTORE_ALIAS'],
+       '--key-store-alias-password', ENV['KEYSTORE_ALIAS_PASSWORD']
+     )
+  end
+
+  lane :buildstaging do
+    sh('tns', 'build', 'android', '--release', '--clean', '--env.staging',
+       '--key-store-path', '../certs/snapback-release-key.keystore',
+       '--key-store-password', ENV['KEYSTORE_PASSWORD'],
+       '--key-store-alias', ENV['KEYSTORE_ALIAS'],
+       '--key-store-alias-password', ENV['KEYSTORE_ALIAS_PASSWORD']
+     )
+  end
+
+  desc 'Ship to Playstore Alpha track.'
+  lane :alpha do
+    build
+    changelog_from_git_commits
+    upload_to_play_store(h 
+      track: 'alpha',
+      track_promote_to: 'alpha',
+      json_key_data: ENV['PLAYSTORE_JSON_KEY_DATA'],
+      apk: './platforms/android/app/build/outputs/apk/release/app-release.apk'
+    )
+  end
+end
