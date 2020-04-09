@@ -40,6 +40,11 @@ Ship to Testflight.
 fastlane android build
 ```
 Build the Android application
+### android buildstaging
+```
+fastlane android buildstaging
+```
+Build for staging
 ### android alpha
 ```
 fastlane android alpha

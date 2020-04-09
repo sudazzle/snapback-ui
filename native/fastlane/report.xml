@@ -5,12 +5,12 @@
     
     
       
-      <testcase classname="fastlane.lanes" name="0: Verifying fastlane version" time="0.009895011">
+      <testcase classname="fastlane.lanes" name="0: Verifying fastlane version" time="0.011523878">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="1: tns build android --release --clean --env.production --key-store-path ../certs/snapback-release-key.keystore --key-store-password anuvhavaradhana --key-store-alias snapback --key-store-alias-password anuvhavaradhana" time="73.277155289">
+      <testcase classname="fastlane.lanes" name="1: tns build android --release --clean --env.staging --key-store-path ../certs/snapback-release-key.keystore --key-store-password anuvhavaradhana --key-store-alias snapback --key-store-alias-password anuvhavaradhana" time="130.936112329">
         
       </testcase>
     

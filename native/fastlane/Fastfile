@@ -55,6 +55,7 @@ platform :android do
      )
   end
 
+  desc 'Build for staging'
   lane :buildstaging do
     sh('tns', 'build', 'android', '--release', '--clean', '--env.staging',
        '--key-store-path', '../certs/snapback-release-key.keystore',
@@ -66,9 +67,9 @@ platform :android do
 
   desc 'Ship to Playstore Alpha track.'
   lane :alpha do
-    build
+    buildstaging
     changelog_from_git_commits
-    upload_to_play_store(h 
+    upload_to_play_store( 
       track: 'alpha',
       track_promote_to: 'alpha',
       json_key_data: ENV['PLAYSTORE_JSON_KEY_DATA'],

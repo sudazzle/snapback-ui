@@ -16,18 +16,23 @@ const hashSalt = Date.now().toString();
 
 module.exports = env => {
     // Add your custom Activities, Services and other android app components here.
-    const appComponents = [
+    const appComponents = env.appComponents || [];
+    appComponents.push(...[
         "tns-core-modules/ui/frame",
         "tns-core-modules/ui/frame/activity",
-    ];
+    ]);
 
-    const platform = env && (env.android && "android" || env.ios && "ios");
+    const platform = env && (env.android && "android" || env.ios && "ios" || env.platform);
     if (!platform) {
         throw new Error("You need to provide a target platform!");
     }
 
     const platforms = ["ios", "android"];
     const projectRoot = __dirname;
+
+    if (env.platform) {
+        platforms.push(env.platform);
+    }
 
     // Default destination inside platforms/<platform>/...
     const dist = resolve(projectRoot, nsWebpack.getAppPath(platform, projectRoot));
@@ -41,7 +46,6 @@ module.exports = env => {
         // You can provide the following flags when running 'tns run android|ios'
         snapshot, // --env.snapshot
         production, // --env.production
-        staging, // --env.staging custom
         report, // --env.report
         hmr, // --env.hmr
         sourceMap, // --env.sourceMap
@@ -58,16 +62,14 @@ module.exports = env => {
     const externals = nsWebpack.getConvertedExternals(env.externals);
 
     const mode = production ? "production" : "development"
-    const definemode = staging ? 'staging' : mode
 
     const appFullPath = resolve(projectRoot, appPath);
     const hasRootLevelScopedModules = nsWebpack.hasRootLevelScopedModules({ projectDir: projectRoot });
     let coreModulesPackageName = "tns-core-modules";
-    const alias = {
-        '~': appFullPath,
-        '@': appFullPath,
-        'vue': 'nativescript-vue'
-    };
+    const alias = env.alias || {};
+    alias['~'] = appFullPath;
+    alias['@'] = appFullPath;
+    alias['vue'] = 'nativescript-vue';
 
     if (hasRootLevelScopedModules) {
         coreModulesPackageName = "@nativescript/core";
@@ -78,7 +80,9 @@ module.exports = env => {
 
     const entryModule = nsWebpack.getEntryModule(appFullPath, platform);
     const entryPath = `.${sep}${entryModule}`;
-    const entries = { bundle: entryPath };
+    const entries = env.entries || {};
+    entries.bundle = entryPath;
+
     const areCoreModulesExternal = Array.isArray(env.externals) && env.externals.some(e => e.indexOf("tns-core-modules") > -1);
     if (platform === "ios" && !areCoreModulesExternal) {
         entries["tns_modules/tns-core-modules/inspector_modules"] = "inspector_modules";
@@ -161,7 +165,7 @@ module.exports = env => {
                     },
                 },
             },
-            minimize: Boolean(production || staging),
+            minimize: Boolean(production),
             minimizer: [
                 new TerserPlugin({
                     parallel: true,
@@ -277,7 +281,7 @@ module.exports = env => {
             // Define useful constants like TNS_WEBPACK
             new webpack.DefinePlugin({
                 "global.TNS_WEBPACK": "true",
-                "TNS_ENV": JSON.stringify(definemode),
+                "TNS_ENV": JSON.stringify(mode),
                 "process": "global.process"
             }),
             // Remove all files from the out dir.
