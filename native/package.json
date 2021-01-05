@@ -21,7 +21,7 @@
     "@nstudio/nativescript-checkbox": "^1.0.0",
     "@nstudio/nativescript-pulltorefresh": "^1.1.1",
     "@vue/devtools": "^5.0.6",
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "nativescript-dev-version": "^0.1.2",
     "nativescript-plugin-firebase": "^10.3.1",
     "nativescript-socketio": "^3.2.1",
